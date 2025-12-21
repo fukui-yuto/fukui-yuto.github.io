@@ -4,15 +4,27 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Yuto Fukui - Portfolio</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Inter', sans-serif; }
+    html { scroll-behavior: smooth; }
+
+    /* スクロールアニメーション */
+    .fadeup {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 700ms ease, transform 700ms ease;
+    }
+    .fadeup.show {
+      opacity: 1;
+      transform: translateY(0px);
+    }
   </style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-white text-gray-800 leading-relaxed">
+<body class="bg-gradient-to-br from-blue-50 to-white text-gray-900">
 
   <!-- ===== ナビゲーション ===== -->
   <header class="fixed top-0 inset-x-0 z-50 bg-white/80 backdrop-blur border-b border-blue-100">
@@ -43,7 +55,7 @@
       </div>
 
       <!-- 現在の業務 -->
-      <section class="mt-10">
+      <section id="work" class="mt-10">
         <h2 class="text-xl font-semibold text-blue-600 mb-2">💼 現在の業務</h2>
         <div class="bg-gray-50 rounded-xl p-5 border border-gray-200">
           <p>クラウドの裏側である仮想化基盤の設計・構築・運用自動化の開発を担当。</p>
@@ -52,7 +64,7 @@
       </section>
 
       <!-- スキルセット -->
-      <section class="mt-10">
+      <section id="skills" class="mt-10">
         <h2 class="text-xl font-semibold text-blue-600 mb-2">🛠 スキルセット</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <!--  マークアップ / プログラミング言語 -->
@@ -87,7 +99,7 @@
       </section>
 
       <!-- 保有資格 -->
-      <section class="mt-10">
+      <section id="skills" class="mt-10">
         <h2 class="text-xl font-semibold text-blue-600 mb-2">📚 保有資格</h2>
         <div class="bg-gray-50 rounded-xl p-5 border border-gray-200 text-sm space-y-2">
           <ul class="list-disc list-inside space-y-1">
@@ -116,7 +128,7 @@
       </section>
       
       <!-- 実績 -->
-      <section class="mt-10">
+      <section id="skills" class="mt-10">
         <h2 class="text-xl font-semibold text-blue-600 mb-2">🏆 実績</h2>
         <div class="space-y-4 text-sm">
       

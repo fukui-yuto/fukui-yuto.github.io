@@ -17,11 +17,11 @@
     body { font-family: 'Inter', sans-serif; }
     html { scroll-behavior: smooth; }
 
-    /* セクション出現アニメーション */
+    /* reveal animation */
     .reveal {
       opacity: 0;
       transform: translateY(40px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
+      transition: opacity .8s ease, transform .8s ease;
     }
     .reveal.active {
       opacity: 1;
@@ -32,7 +32,7 @@
 
 <body class="bg-gradient-to-br from-blue-50 to-white text-gray-800">
 
-<!-- ================= Header / Navigation ================= -->
+<!-- ================= Header ================= -->
 <header class="fixed top-0 inset-x-0 z-50 backdrop-blur bg-white/70 border-b border-blue-100">
   <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
     <span class="font-bold text-blue-600">Yuto Fukui</span>
@@ -49,81 +49,139 @@
 <!-- ================= Main ================= -->
 <main class="pt-24 max-w-4xl mx-auto px-6 space-y-24">
 
-  <!-- About -->
-  <section id="about" class="reveal">
-    <div class="bg-white rounded-3xl shadow-xl p-10 border border-blue-100">
-      <div class="flex flex-col sm:flex-row items-center sm:space-x-8">
-        <img src="https://avatars.githubusercontent.com/u/00000000?v=4"
-             class="w-28 h-28 rounded-full border-4 border-blue-500 shadow-md">
-        <div class="mt-4 sm:mt-0">
-          <h1 class="text-4xl font-bold text-blue-600">Yuto Fukui</h1>
-          <p class="text-gray-500 mt-2">クラウド仮想化基盤エンジニア / チームリーダー</p>
-          <p class="mt-4 text-sm leading-relaxed">
-            クラウドの裏側である仮想化基盤を専門に、設計・構築・運用自動化を一貫して担当。
-            属人性を排除し、再現性ある運用を作ることを強みとしています。
-          </p>
-        </div>
+<!-- About -->
+<section id="about" class="reveal">
+  <div class="bg-white shadow-xl rounded-3xl p-10 border border-blue-100">
+    <div class="flex flex-col sm:flex-row items-center sm:space-x-8">
+      <img src="https://avatars.githubusercontent.com/u/00000000?v=4"
+           class="w-28 h-28 rounded-full border-4 border-blue-500 shadow-md">
+      <div>
+        <h1 class="text-4xl font-bold text-blue-600">Yuto Fukui</h1>
+        <p class="text-sm text-gray-500 mt-1">クラウド仮想化基盤エンジニア</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Work -->
-  <section id="work" class="reveal">
-    <h2 class="section-title">💼 現在の業務</h2>
+<!-- Work -->
+<section id="work" class="reveal">
+  <h2 class="section-title">💼 現在の業務</h2>
+  <div class="card">
+    <p>クラウドの裏側である仮想化基盤の設計・構築・運用自動化の開発を担当。</p>
+    <p>仮想化基盤チームのリーダーとして、技術と運用方針の両面から支援。</p>
+  </div>
+</section>
+
+<!-- Skills -->
+<section id="skills" class="reveal">
+  <h2 class="section-title">🛠 スキルセット</h2>
+  <div class="grid sm:grid-cols-2 gap-6">
     <div class="card">
-      <p>仮想化基盤の設計・構築・運用自動化を担当。</p>
-      <p>7名チームのリーダーとして、技術と運用方針の両面を支援。</p>
+      <h3 class="card-title">マークアップ・プログラミング言語</h3>
+      <ul class="list-disc list-inside text-sm space-y-1">
+        <li>C / C++</li><li>HTML / CSS</li><li>Java</li><li>JavaScript</li>
+        <li>Perl</li><li>Python</li><li>PowerShell</li><li>Shell Script</li>
+      </ul>
     </div>
-  </section>
+    <div class="card">
+      <h3 class="card-title">インフラ系</h3>
+      <ul class="list-disc list-inside text-sm space-y-1">
+        <li>Linuxサーバー全般</li><li>Windowsサーバー</li>
+        <li>vSphere (vCenter/ESXi)</li><li>Ansible</li>
+        <li>Docker</li><li>Jenkins</li><li>Zabbix</li><li>Elastic Search</li>
+      </ul>
+    </div>
+  </div>
+</section>
 
-  <!-- Skills -->
-  <section id="skills" class="reveal">
-    <h2 class="section-title">🛠 スキルセット</h2>
-    <div class="grid sm:grid-cols-2 gap-6">
-      <div class="card">
-        <h3 class="card-title">Programming</h3>
-        <ul class="list-disc list-inside text-sm space-y-1">
-          <li>C / C++ / Java</li>
-          <li>Python / Shell / PowerShell</li>
-          <li>JavaScript / HTML / CSS</li>
+<!-- Certifications -->
+<section id="certs" class="reveal">
+  <h2 class="section-title">📚 保有資格</h2>
+  <div class="card text-sm space-y-1">
+    <p>2016/5 - 基本情報技術者試験</p>
+    <p>2022/3 - VMware Certified Professional – DCV</p>
+    <p>2023/10 - AWS Certified Cloud Practitioner</p>
+    <p>2023/11 - Fujitsu Certified Professional Cloud</p>
+    <p>2023/11 - Microsoft Azure Fundamentals</p>
+    <p>2024/5 - Microsoft Azure Administrator（有効期限切れ）</p>
+    <p>2024/7 - AWS Certified Solutions Architect</p>
+    <p>LPIC-1（101 / 102）</p>
+    <p>LPIC-2（201）</p>
+  </div>
+</section>
+
+<!-- Achievements -->
+<section id="achievements" class="reveal">
+  <h2 class="text-2xl font-bold text-blue-600 mb-12">🏆 実績</h2>
+
+  <div class="relative border-l-2 border-blue-200 ml-4 space-y-16">
+
+    <!-- 年度ごとの内容（全文保持） -->
+    <!-- 2021 -->
+    <div class="timeline">
+      <h3>2021年度</h3>
+      <div class="achievement-card">
+        <h4>ESXi運用の属人性を排除し、業務の見える化・自動化を推進</h4>
+        <ul>
+          <li>DjangoとDockerでSlack通知付きの業務タスク管理システムを開発。</li>
+          <li>ESXi syslogの自動収集環境をAnsibleで構築。</li>
+          <li>数千台規模のESXiホスト管理を自動化し <span class="badge">5人月 → 0.5人月</span></li>
         </ul>
       </div>
-      <div class="card">
-        <h3 class="card-title">Infrastructure</h3>
-        <ul class="list-disc list-inside text-sm space-y-1">
-          <li>Linux / Windows Server</li>
-          <li>vSphere (ESXi / vCenter)</li>
-          <li>Ansible / Docker / Jenkins</li>
+    </div>
+
+    <!-- 2022 -->
+    <div class="timeline">
+      <h3>2022年度</h3>
+      <div class="achievement-card">
+        <h4>アップグレード前検証を完全自動化</h4>
+        <ul>
+          <li>検証作業を <span class="badge">3人月 → 0.5人月</span></li>
+          <li>新入社員教育係として育成体制を構築。</li>
         </ul>
       </div>
     </div>
-  </section>
 
-  <!-- Certifications -->
-  <section id="certs" class="reveal">
-    <h2 class="section-title">📚 保有資格</h2>
-    <div class="card text-sm space-y-1">
-      <p>VMware Certified Professional – DCV</p>
-      <p>AWS Solutions Architect</p>
-      <p>Microsoft Azure Fundamentals</p>
-      <p>LPIC-1 / LPIC-2 (201)</p>
+    <!-- 2023 -->
+    <div class="timeline">
+      <h3>2023年度</h3>
+      <div class="achievement-card">
+        <h4>先読みの自動化と構築時間短縮</h4>
+        <ul>
+          <li>リソース予測を自動化し <span class="badge">1人月 → 0.1人月</span></li>
+          <li>ESXi構築 <span class="badge">6h → 2h / 台</span></li>
+          <li>教育係継続。</li>
+        </ul>
+      </div>
     </div>
-  </section>
 
-  <!-- Achievements -->
-  <section id="achievements" class="reveal">
-    <h2 class="section-title">🏆 実績</h2>
-    <div class="space-y-4">
-      <details class="card" open>
-        <summary class="font-semibold text-blue-600 cursor-pointer">
-          ESXi運用自動化（最大12人月 → 2人月）
-        </summary>
-        <p class="mt-2 text-sm">
-          数千台規模の仮想基盤運用を自動化し、属人判断を排除。
-        </p>
-      </details>
+    <!-- 2024 -->
+    <div class="timeline">
+      <h3>2024年度</h3>
+      <div class="achievement-card">
+        <h4>チームリーダー就任と同時に品質確立</h4>
+        <ul>
+          <li>7名チームのマネジメント。</li>
+          <li>アップグレード <span class="badge">12人月 → 2人月</span></li>
+        </ul>
+      </div>
     </div>
-  </section>
+
+    <!-- 2025 -->
+    <div class="timeline">
+      <h3>2025年度</h3>
+      <div class="achievement-card">
+        <h4>標準化・再現性の高い自動化</h4>
+        <ul>
+          <li>vCenter <span class="badge">6人月 → 1人月</span></li>
+          <li>基盤解体 <span class="badge">2人月 → 0.1人月</span></li>
+          <li>管理VM <span class="badge">1人月 → 0.1人月</span></li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
 
 </main>
 
@@ -133,33 +191,37 @@
 
 <!-- ================= JS ================= -->
 <script>
-  // セクション出現アニメーション
   const reveals = document.querySelectorAll('.reveal');
-
   const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('active');
-      }
-    });
+    entries.forEach(e => e.isIntersecting && e.target.classList.add('active'));
   }, { threshold: 0.15 });
-
   reveals.forEach(el => observer.observe(el));
 </script>
 
-<!-- ================= Utility Classes ================= -->
+<!-- ================= Utility ================= -->
 <style>
-  .section-title {
-    @apply text-xl font-semibold text-blue-600 mb-4;
+  .section-title { @apply text-xl font-semibold text-blue-600 mb-4; }
+  .card { @apply bg-white rounded-2xl p-6 border border-gray-200 shadow-sm; }
+  .card-title { @apply text-sm font-semibold text-gray-600 mb-2; }
+  .nav-link { @apply text-gray-600 hover:text-blue-600 transition; }
+  .timeline { @apply relative pl-10; }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: -0.75rem;
+    top: .4rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    background: #3b82f6;
+    border-radius: 9999px;
   }
-  .card {
-    @apply bg-white rounded-2xl p-6 border border-gray-200 shadow-sm;
+  .achievement-card {
+    @apply bg-white rounded-2xl p-6 border border-gray-200 shadow-sm mt-4
+           transition hover:-translate-y-1 hover:shadow-lg;
   }
-  .card-title {
-    @apply text-sm font-semibold text-gray-600 mb-2;
-  }
-  .nav-link {
-    @apply text-gray-600 hover:text-blue-600 transition;
+  .achievement-card ul { @apply list-disc list-inside text-sm space-y-1; }
+  .badge {
+    @apply inline-block bg-blue-100 text-blue-700 text-xs font-semibold px-2 py-0.5 rounded-full;
   }
 </style>
 

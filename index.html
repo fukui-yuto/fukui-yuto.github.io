@@ -1,230 +1,37 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Yuto Fukui - Portfolio</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    body { font-family: 'Inter', sans-serif; }
-    html { scroll-behavior: smooth; }
-
-    /* ===== スクロールアニメーション ===== */
-    .fadeup {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 700ms ease, transform 700ms ease;
-    }
-    .fadeup.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    details summary {
-      cursor: pointer;
-    }
-    details[open] summary {
-      margin-bottom: 0.5rem;
-    }
-    details summary::marker {
-      color: #2563eb;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>Yuto Fukui | Portfolio</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+<body class="bg-dark text-light">
 
-<body class="bg-gradient-to-br from-blue-50 to-white text-gray-900">
-
-  <!-- ===== ナビゲーション ===== -->
-  <header class="fixed top-0 inset-x-0 z-50 bg-white/80 backdrop-blur border-b border-blue-100">
-    <nav class="max-w-4xl mx-auto px-6 h-14 flex items-center justify-between">
-      <span class="font-semibold text-blue-600">Yuto Fukui</span>
-      <ul class="flex space-x-4 text-sm font-medium text-gray-600">
-        <li><a href="#work" class="hover:text-blue-600">業務</a></li>
-        <li><a href="#skills" class="hover:text-blue-600">スキル</a></li>
-        <li><a href="#certs" class="hover:text-blue-600">資格</a></li>
-        <li><a href="#achievements" class="hover:text-blue-600">実績</a></li>
+<nav class="navbar navbar-expand-lg navbar-dark bg-black">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">Yuto Fukui</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="work.html">業務</a></li>
+        <li class="nav-item"><a class="nav-link" href="skills.html">スキル</a></li>
+        <li class="nav-item"><a class="nav-link" href="certifications.html">資格</a></li>
+        <li class="nav-item"><a class="nav-link" href="achievements.html">実績</a></li>
       </ul>
-    </nav>
-  </header>
-
-  <div class="h-14"></div>
-
-  <div class="max-w-4xl mx-auto px-6 py-12">
-    <div class="bg-white shadow-xl rounded-3xl p-10 border border-blue-100">
-
-      <!-- プロフィール -->
-      <div class="flex flex-col sm:flex-row items-center sm:items-start sm:space-x-8 fadeup">
-        <img src="https://avatars.githubusercontent.com/u/00000000?v=4"
-             class="w-28 h-28 rounded-full border-4 border-blue-500 shadow-md">
-        <div class="mt-4 sm:mt-0 text-center sm:text-left">
-          <h1 class="text-4xl font-bold text-blue-600">Yuto Fukui</h1>
-          <p class="text-sm text-gray-500 mt-1">クラウド仮想化基盤エンジニア</p>
-        </div>
-      </div>
-
-      <!-- 現在の業務 -->
-      <section id="work" class="mt-10 fadeup">
-        <h2 class="text-xl font-semibold text-blue-600 mb-2">💼 現在の業務</h2>
-        <div class="bg-gray-50 rounded-xl p-5 border border-gray-200 hover:shadow-lg transition">
-          <p>クラウドの裏側である仮想化基盤の設計・構築・運用自動化の開発を担当。</p>
-          <p>仮想化基盤チームのリーダーとして、技術と運用方針の両面から支援。</p>
-        </div>
-      </section>
-
-      <!-- スキル -->
-      <section id="skills" class="mt-10 fadeup">
-        <h2 class="text-xl font-semibold text-blue-600 mb-2">🛠 スキルセット</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div class="bg-gray-50 rounded-xl p-4 border border-gray-200 hover:shadow-lg transition">
-            <h3 class="font-semibold text-sm text-gray-600 mb-1">マークアップ・プログラミング言語</h3>
-            <ul class="list-disc list-inside text-sm space-y-0.5">
-              <li>C / C++</li>
-              <li>HTML / CSS</li>
-              <li>Java</li>
-              <li>JavaScript</li>
-              <li>Perl</li>
-              <li>Python</li>
-              <li>PowerShell</li>
-              <li>Shell Script</li>
-            </ul>
-          </div>
-          <div class="bg-gray-50 rounded-xl p-4 border border-gray-200 hover:shadow-lg transition">
-            <h3 class="font-semibold text-sm text-gray-600 mb-1">インフラ系</h3>
-            <ul class="list-disc list-inside text-sm space-y-0.5">
-              <li>Linuxサーバー全般</li>
-              <li>Windowsサーバー</li>
-              <li>vSphere (vCenter/ESXi)</li>
-              <li>Ansible</li>
-              <li>Docker</li>
-              <li>Jenkins</li>
-              <li>Zabbix</li>
-              <li>Elastic Search</li>
-              <li>Active Directory</li>
-            </ul>
-          </div>
-        </div>
-        <!-- スキル可視化図 -->
-        <div class="mb-6 bg-white rounded-2xl border border-gray-200 shadow-sm
-                    overflow-hidden fadeup
-                    transition transform duration-300
-                    hover:shadow-lg transition">
-          <img
-            src="vSphere全体図_ポートフォリオ.drawio.png"
-            alt="スキルの全体像（仮想化基盤・自動化・運用レイヤー）"
-            class="w-full object-contain bg-gray-50 p-4"
-          />
-          <div class="px-4 pb-4 text-xs text-gray-500 leading-relaxed">
-            本図は、仮想化基盤を中心に「設計・構築・運用・自動化」を
-            レイヤーとして整理したスキルマップです。
-            実務で担当してきた領域を軸に構成しています。
-          </div>
-        </div>
-      </section>
-
-      <!-- 資格 -->
-      <section id="certs" class="mt-10 fadeup">
-        <h2 class="text-xl font-semibold text-blue-600 mb-2">📚 保有資格</h2>
-        <div class="bg-gray-50 rounded-xl p-5 border border-gray-200 text-sm hover:shadow-lg transition">
-          <ul class="list-disc list-inside space-y-1">
-            <li>2016/5 - 基本情報技術者試験</li>
-            <li>2022/3 - VMware Certified Professional – DCV</li>
-            <li>2023/10 - AWS Certified Cloud Practitioner</li>
-            <li>2023/11 - Fujitsu Certified Professional Cloud</li>
-            <li>2023/11 - Microsoft Azure Fundamentals</li>
-            <li>2024/5 - Microsoft Azure Administrator <span class="text-red-500">(有効期限切れ)</span></li>
-            <li>2024/7 - AWS Certified Solutions Architect</li>
-            <li>LPIC-1
-              <ul class="list-disc list-inside ml-5 text-gray-600">
-                <li>2024/9 - LPIC1 101</li>
-                <li>2024/9 - LPIC1 102</li>
-              </ul>
-            </li>
-            <li>LPIC-2
-              <ul class="list-disc list-inside ml-5 text-gray-600">
-                <li>2025/7 - LPIC2 201</li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <!-- 実績 -->
-      <section id="achievements" class="mt-10 fadeup">
-        <h2 class="text-xl font-semibold text-blue-600 mb-2">🏆 実績</h2>
-        <div class="space-y-4 text-sm">
-
-          <details class="bg-gray-50 rounded-xl p-5 border border-gray-200 hover:shadow-lg transition" open>
-            <summary class="font-semibold text-blue-600">2021年度：ESXi運用の属人性を排除し、業務の見える化・自動化を推進</summary>
-            <ul class="list-disc list-inside mt-2 space-y-1">
-              <li>Slack通知付きの業務タスク管理システムを開発し、時間通知・通知先設定などの業務連携を自動化。</li>
-              <li>ESXi syslogの自動収集環境をAnsibleで構築し、ログ分析基盤の統一と保守性向上を実現。</li>
-              <li>数千台規模のESXiホストを一元管理するシステムを開発し、最適なリソース配置を自動化。属人判断を排し、年間5人月→0.5人月まで工数を削減。</li>
-            </ul>
-          </details>
-
-          <details class="bg-gray-50 rounded-xl p-5 border border-gray-200 hover:shadow-lg transition">
-            <summary class="font-semibold text-blue-600">2022年度：アップグレード前検証を完全自動化し、現場の作業負荷とリスクを軽減</summary>
-            <ul class="list-disc list-inside mt-2 space-y-1">
-              <li>vCenter/ESXiアップグレード前の動作検証項目をスクリプト化・自動実行可能にし、作業時間を3人月→0.5人月に削減。障害リスクを事前回避できる基盤を確立。</li>
-              <li>新入社員教育係に就任し、育成計画・定例MTG・質問受付体制を構築。結果として後輩がRedmine自動化システムを独力で構築するなど、育成成果が現場改善に結びつく。</li>
-            </ul>
-          </details>
-
-          <details class="bg-gray-50 rounded-xl p-5 border border-gray-200 hover:shadow-lg transition">
-            <summary class="font-semibold text-blue-600">2023年度：先読みの自動化と構築時間短縮で、持続可能なインフラ運用を構築</summary>
-            <ul class="list-disc list-inside mt-2 space-y-1">
-              <li>リソース使用量を過去データから予測し、ホスト増設判断を自動化。1人月かかっていた作業を0.1人月に圧縮し、運用の先回り判断を仕組み化。</li>
-              <li>ESXiホスト構築フローを完全自動化し、1台あたりの構築時間を6h→2hに短縮。年間で約3人月の工数削減を達成。</li>
-              <li>教育係を継続し、若手メンバーの技術力・自走力を底上げする体制を維持。</li>
-            </ul>
-          </details>
-
-          <details class="bg-gray-50 rounded-xl p-5 border border-gray-200 hover:shadow-lg transition">
-            <summary class="font-semibold text-blue-600">2024年度：チームリーダー就任と同時に、構築スピードとセキュリティ品質を確立</summary>
-            <ul class="list-disc list-inside mt-2 space-y-1">
-              <li>4月よりサブリーダーに昇格。vSphereの設計・構築に参画。顧客要望に合わせた柔軟な仮想基盤の設計提案・実装を主導。</li>
-              <li>9月よりチームリーダーに昇格し、7名チームのマネジメントを開始。進捗管理・タスク分担・技術支援を含む体制を整備。</li>
-              <li>ESXiのアップグレードを自動化・並列化し、従来12人月かかっていた作業を2人月に削減。セキュリティパッチ対応も迅速化。</li>
-            </ul>
-          </details>
-
-          <details class="bg-gray-50 rounded-xl p-5 border border-gray-200 hover:shadow-lg transition">
-            <summary class="font-semibold text-blue-600">2025年度：複雑な基盤作業を標準化・再現性の高い自動化へ落とし込み継続改善</summary>
-            <ul class="list-disc list-inside mt-2 space-y-1">
-              <li>vCenterアップグレードのフローを自動化・標準化し、作業工数を6人月→1人月へ短縮。</li>
-              <li>仮想化基盤の解体作業をフル自動化。人手で2人月かかっていた工程を0.1人月で完了できる仕組みに刷新。</li>
-              <li>管理系VMの自動構築テンプレートを整備し、年間1人月→0.1人月に削減。後続メンバーも活用できる汎用化を意識した設計。</li>
-              <li>リーダーとして、チーム内の属人作業の可視化と、継続的な自動化・効率化をリード中。</li>
-            </ul>
-          </details>
-
-        </div>
-      </section>
-
-      <footer class="mt-12 text-center text-gray-400 text-xs">
-        &copy; 2025 Yuto Fukui - All rights reserved.
-      </footer>
     </div>
   </div>
+</nav>
 
-  <!-- スクロール表示 -->
-  <script>
-    const items = document.querySelectorAll('.fadeup');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('show');
-        }
-      });
-    }, { threshold: 0.15 });
+<section class="container py-5 text-center">
+  <h1 class="display-4">クラウド仮想化基盤エンジニア</h1>
+  <p class="lead">仮想化基盤の設計・構築・運用自動化を担当。</p>
+</section>
 
-    items.forEach(el => observer.observe(el));
-  </script>
+<footer class="text-center py-3 text-secondary">
+  © 2026 Yuto Fukui
+</footer>
 
 </body>
 </html>

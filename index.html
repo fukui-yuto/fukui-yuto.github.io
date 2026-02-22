@@ -267,46 +267,96 @@
 
       <!-- 実績 -->
       <section id="achievements" class="mt-10 fadeup">
-        <h2 class="text-xl font-semibold text-blue-600 mb-2">🏆 実績</h2>
-        <div class="space-y-4 text-sm">
+        <h2 class="text-xl font-semibold text-blue-600 mb-4">🏆 実績</h2>
+        <div class="space-y-3">
 
-          <details class="bg-gray-50 rounded-xl p-5 border border-gray-200 hover:shadow-lg transition" open>
-            <summary class="font-semibold text-blue-600">2021年度：ESXi運用の属人性を排除し、業務の見える化・自動化を推進</summary>
-            <ul class="list-disc list-inside mt-2 space-y-1">
+          <!-- 2021年度 -->
+          <details class="group border-l-4 border-blue-500 bg-gradient-to-r from-blue-50 to-white rounded-xl p-5 shadow-md hover:shadow-lg transition" open>
+            <summary class="cursor-pointer flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <span class="text-xs font-bold text-blue-600 bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center">2021</span>
+                <div>
+                  <p class="font-semibold text-blue-700">ESXi運用の属人性を排除し、業務の見える化・自動化を推進</p>
+                  <p class="text-xs text-blue-500 mt-0.5">属人判断を排除、年間5人月→0.5人月に削減</p>
+                </div>
+              </div>
+              <span class="group-open:rotate-180 transition transform">▼</span>
+            </summary>
+            <ul class="list-disc list-inside mt-3 ml-15 space-y-1 text-sm text-gray-700">
               <li>ESXi syslogの自動収集環境をAnsibleで構築し、ログ分析基盤の統一と保守性向上を実現。</li>
               <li>数千台規模のESXiホストを一元管理するシステムを開発し、最適なリソース配置を自動化。属人判断を排し、年間5人月→0.5人月まで工数を削減。</li>
             </ul>
           </details>
 
-          <details class="bg-gray-50 rounded-xl p-5 border border-gray-200 hover:shadow-lg transition" open>
-            <summary class="font-semibold text-blue-600">2022年度：アップグレード前検証を完全自動化し、現場の作業負荷とリスクを軽減</summary>
-            <ul class="list-disc list-inside mt-2 space-y-1">
+          <!-- 2022年度 -->
+          <details class="group border-l-4 border-green-500 bg-gradient-to-r from-green-50 to-white rounded-xl p-5 shadow-md hover:shadow-lg transition" open>
+            <summary class="cursor-pointer flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <span class="text-xs font-bold text-green-600 bg-green-100 w-12 h-12 rounded-full flex items-center justify-center">2022</span>
+                <div>
+                  <p class="font-semibold text-green-700">アップグレード前検証を完全自動化し、現場の作業負荷とリスクを軽減</p>
+                  <p class="text-xs text-green-500 mt-0.5">作業時間を3人月→0.5人月に削減、育成体制を構築</p>
+                </div>
+              </div>
+              <span class="group-open:rotate-180 transition transform">▼</span>
+            </summary>
+            <ul class="list-disc list-inside mt-3 ml-15 space-y-1 text-sm text-gray-700">
               <li>vCenter/ESXiアップグレード前の動作検証項目をスクリプト化・自動実行可能にし、作業時間を3人月→0.5人月に削減。障害リスクを事前回避できる基盤を確立。</li>
               <li>新入社員教育係に就任し、育成計画・定例MTG・質問受付体制を構築。結果として後輩がRedmine自動化システムを独力で構築するなど、育成成果が現場改善に結びつく。</li>
             </ul>
           </details>
 
-          <details class="bg-gray-50 rounded-xl p-5 border border-gray-200 hover:shadow-lg transition" open>
-            <summary class="font-semibold text-blue-600">2023年度：先読みの自動化と構築時間短縮で、持続可能なインフラ運用を構築</summary>
-            <ul class="list-disc list-inside mt-2 space-y-1">
+          <!-- 2023年度 -->
+          <details class="group border-l-4 border-purple-500 bg-gradient-to-r from-purple-50 to-white rounded-xl p-5 shadow-md hover:shadow-lg transition" open>
+            <summary class="cursor-pointer flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <span class="text-xs font-bold text-purple-600 bg-purple-100 w-12 h-12 rounded-full flex items-center justify-center">2023</span>
+                <div>
+                  <p class="font-semibold text-purple-700">先読みの自動化と構築時間短縮で、持続可能なインフラ運用を構築</p>
+                  <p class="text-xs text-purple-500 mt-0.5">構築時間を6h→2hに短縮、年間3人月削減</p>
+                </div>
+              </div>
+              <span class="group-open:rotate-180 transition transform">▼</span>
+            </summary>
+            <ul class="list-disc list-inside mt-3 ml-15 space-y-1 text-sm text-gray-700">
               <li>リソース使用量を過去データから予測し、ホスト増設判断を自動化。1人月かかっていた作業を0.1人月に圧縮し、運用の先回り判断を仕組み化。</li>
               <li>ESXiホスト構築フローを完全自動化し、1台あたりの構築時間を6h→2hに短縮。年間で約3人月の工数削減を達成。</li>
               <li>教育係を継続し、若手メンバーの技術力・自走力を底上げする体制を維持。</li>
             </ul>
           </details>
 
-          <details class="bg-gray-50 rounded-xl p-5 border border-gray-200 hover:shadow-lg transition" open>
-            <summary class="font-semibold text-blue-600">2024年度：チームリーダー就任と同時に、構築スピードとセキュリティ品質を確立</summary>
-            <ul class="list-disc list-inside mt-2 space-y-1">
+          <!-- 2024年度 -->
+          <details class="group border-l-4 border-cyan-500 bg-gradient-to-r from-cyan-50 to-white rounded-xl p-5 shadow-md hover:shadow-lg transition" open>
+            <summary class="cursor-pointer flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <span class="text-xs font-bold text-cyan-600 bg-cyan-100 w-12 h-12 rounded-full flex items-center justify-center">2024</span>
+                <div>
+                  <p class="font-semibold text-cyan-700">チームリーダー就任と同時に、構築スピードとセキュリティ品質を確立</p>
+                  <p class="text-xs text-cyan-500 mt-0.5">リーダー昇格、12人月→2人月に削減</p>
+                </div>
+              </div>
+              <span class="group-open:rotate-180 transition transform">▼</span>
+            </summary>
+            <ul class="list-disc list-inside mt-3 ml-15 space-y-1 text-sm text-gray-700">
               <li>4月よりサブリーダーに昇格。vSphereの設計・構築に参画。顧客要望に合わせた柔軟な仮想基盤の設計提案・実装を主導。</li>
               <li>9月よりチームリーダーに昇格し、7名チームのマネジメントを開始。進捗管理・タスク分担・技術支援を含む体制を整備。</li>
               <li>ESXiのアップグレードを自動化・並列化し、従来12人月かかっていた作業を2人月に削減。セキュリティパッチ対応も迅速化。</li>
             </ul>
           </details>
 
-          <details class="bg-gray-50 rounded-xl p-5 border border-gray-200 hover:shadow-lg transition" open>
-            <summary class="font-semibold text-blue-600">2025年度：複雑な基盤作業を標準化・再現性の高い自動化へ落とし込み継続改善</summary>
-            <ul class="list-disc list-inside mt-2 space-y-1">
+          <!-- 2025年度 -->
+          <details class="group border-l-4 border-orange-500 bg-gradient-to-r from-orange-50 to-white rounded-xl p-5 shadow-md hover:shadow-lg transition" open>
+            <summary class="cursor-pointer flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <span class="text-xs font-bold text-orange-600 bg-orange-100 w-12 h-12 rounded-full flex items-center justify-center">2025</span>
+                <div>
+                  <p class="font-semibold text-orange-700">複雑な基盤作業を標準化・再現性の高い自動化へ落とし込み継続改善</p>
+                  <p class="text-xs text-orange-500 mt-0.5">アップグレード6人月→1人月、解体2人月→0.1人月に削減</p>
+                </div>
+              </div>
+              <span class="group-open:rotate-180 transition transform">▼</span>
+            </summary>
+            <ul class="list-disc list-inside mt-3 ml-15 space-y-1 text-sm text-gray-700">
               <li>vCenterアップグレードのフローを自動化・標準化し、作業工数を6人月→1人月へ短縮。</li>
               <li>仮想化基盤の解体作業をフル自動化。人手で2人月かかっていた工程を0.1人月で完了できる仕組みに刷新。</li>
               <li>管理系VMの自動構築テンプレートを整備し、年間1人月→0.1人月に削減。後続メンバーも活用できる汎用化を意識した設計。</li>

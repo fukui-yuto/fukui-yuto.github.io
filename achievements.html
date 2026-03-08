@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>実績 - Yuto Fukui</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    details summary {
+      cursor: pointer;
+    }
+
+    details[open] summary {
+      margin-bottom: 0.5rem;
+    }
+
+    details summary::marker {
+      color: #2563eb;
+    }
+  </style>
+</head>
+
+<body class="bg-gradient-to-br from-blue-50 to-white text-gray-900">
+
+  <!-- ===== ナビゲーション ===== -->
+  <header class="fixed top-0 inset-x-0 z-50 bg-white/80 backdrop-blur border-b border-blue-100">
+    <nav class="max-w-4xl mx-auto px-6 h-14 flex items-center justify-between">
+      <a href="index.html" class="font-semibold text-blue-600">Yuto Fukui</a>
+      <ul class="flex space-x-4 text-sm font-medium text-gray-600">
+        <li><a href="index.html#work" class="hover:text-blue-600">業務</a></li>
+        <li><a href="index.html#skills" class="hover:text-blue-600">スキル</a></li>
+        <li><a href="index.html#certs" class="hover:text-blue-600">資格</a></li>
+        <li><a href="achievements.html" class="hover:text-blue-600 font-bold text-blue-600">実績</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="h-14"></div>
+
+  <div class="max-w-4xl mx-auto px-6 py-12">
+    <div class="bg-white shadow-xl rounded-3xl p-10 border border-blue-100">
+
+      <!-- 実績 -->
+      <section id="achievements">
+        <h2 class="text-xl font-semibold text-blue-600 mb-4">🏆 実績</h2>
+        <div class="space-y-3">
+
+          <details
+            class="group border-l-4 border-blue-500 bg-gradient-to-r from-blue-50 to-white rounded-xl p-5 shadow-md hover:shadow-lg transition"
+            open>
+            <summary class="cursor-pointer flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <div>
+                  <p class="font-semibold text-blue-700">Syslogの構築自動化により、ログ分析基盤の統一と保守性向上を実現</p>
+                </div>
+              </div>
+              <span class="group-open:rotate-180 transition transform">▼</span>
+            </summary>
+            <div class="mt-4 text-sm text-gray-700">
+              <img src="img/syslog.png" alt="Image" class="w-full md:w-5/6 mx-auto rounded-lg mb-4">
+              <ul class="list-disc list-inside space-y-1">
+                <li>ESXiにて障害が発生した際の切り分けとしてログを保存しておく必要がある。</li>
+                <li>ESXiのログは約1日程度でログローテートされる。</li>
+                <li>Ansibleにより複数環境へまとめてでデプロイ。</li>
+                <li>VMデプロイ、OS内設定、正常性確認の3ステップで作業完了。</li>
+                <li>数十台あるSyslogVMをまとめて刷新することが可能となった。</li>
+                <li>昨今のセキュリティ対策としてEOS切れのOSバージョンを利用しないよう即座にリプレースが可能となった。</li>
+              </ul>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <footer class="mt-12 text-center text-gray-400 text-xs">
+        &copy; 2025 Yuto Fukui - All rights reserved.
+      </footer>
+    </div>
+  </div>
+</body>
+</html>

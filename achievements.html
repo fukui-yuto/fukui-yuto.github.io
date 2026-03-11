@@ -73,8 +73,10 @@
             <div class="mt-4 text-sm text-gray-700">
               <img src="img/syslog.png" alt="Image" class="w-full md:w-5/6 mx-auto rounded-lg mb-4">
               <p class="text-gray-700 leading-relaxed">
-                ESXiサーバのログは日次でローテートされるため、障害発生時の詳細な原因追跡が困難という課題がありました。加えて、多数のSyslog VMがサポート切れのOSで稼働しており、セキュリティ上のリスクも抱えていました。<br><br>
-                この状況を解決するため、Ansibleを用いてSyslog VMのデプロイ、OS設定、正常性確認に至るまでの一連のプロセスを自動化しました。この仕組みにより、数十台規模のVM群を迅速かつ一括で、常に最新の状態へ更新できる体制を構築しました。<br><br>
+                ESXiサーバのログは日次でローテートされるため、障害発生時の詳細な原因追跡が困難という課題がありました。加えて、多数のSyslog
+                VMがサポート切れのOSで稼働しており、セキュリティ上のリスクも抱えていました。<br><br>
+                この状況を解決するため、Ansibleを用いてSyslog
+                VMのデプロイ、OS設定、正常性確認に至るまでの一連のプロセスを自動化しました。この仕組みにより、数十台規模のVM群を迅速かつ一括で、常に最新の状態へ更新できる体制を構築しました。<br><br>
                 結果として、全サーバのログを永続的に保管・分析する基盤が整い、障害対応の精度と速度が大幅に向上しました。同時に、OSのバージョンを常に最新に保つ運用が実現したことで、セキュリティリスクを抜本的に低減し、システムの保守性と安全性を飛躍的に高めることに成功しました。
               </p>
             </div>
@@ -142,10 +144,36 @@
               </p>
             </div>
           </details>
+
+          <details
+            class="group border-l-4 border-purple-500 bg-gradient-to-r from-indigo-50 to-white rounded-xl p-5 shadow-md hover:shadow-lg transition"
+            open>
+            <summary class="cursor-pointer flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <div>
+                  <p class="font-semibold text-indigo-700">ESXiのアップグレードを自動化・並列化し、従来12人月かかっていた作業を2人月に削減</p>
+                </div>
+              </div>
+              <span class="group-open:rotate-180 transition transform">▼</span>
+            </summary>
+            <div class="mt-4 text-sm text-gray-700">
+              <img src="img/esxi_rolling_update.png" alt="Image" class="w-full md:w-5/6 mx-auto rounded-lg mb-4">
+              <p class="text-gray-700 leading-relaxed">
+                従来の大規模なESXiアップデートは数年に一度、ハードウェアのEOSL（End of Service Life）対応を目的としていました。しかし近年、クリティカルな脆弱性が頻繁に報告され、セキュリティパッチの適用が年2回以上の頻度で必須となりました。従来半年がかりの手作業ではこの速度に対応できず、既知の脆弱性を長期間放置せざるを得ない深刻なリスクを抱えていました。<br><br>
+                この課題に対し、数千台規模のESXiアップデート作業をエンドツーエンドで自動化するパイプラインを設計・構築しました。このシステムは、対象ホスト群の事前チェック、アップデート適用、正常性確認、そして後処理までを一貫して実行します。特に、複数環境をまたいで安全にローリングアップデートできる並列処理の仕組みを実装したことにより、作業スピードが大幅に向上しました。<br><br>
+                この自動化により、従来12人月を要した工数は2人月へと83%削減され、半年かかっていた作業期間もわずか2週間へと劇的に短縮されました。これにより、緊急のセキュリティ勧告発行時にも迅速にパッチを展開できる体制が整い、事業継続性を脅かすセキュリティリスクを抜本的に低減。インフラ全体の信頼性と安全性を飛躍的に向上させることに成功しました。
+              </p>
+            </div>
+          </details>
         </div>
       </section>
-
-      <footer class="mt-12 text-center text-gray-400 text-xs">
+      <div class="mt-4 text-center">
+        <a href="index.html"
+          class="inline-block bg-blue-600 text-white font-semibold px-8 py-2 rounded-lg shadow-md hover:bg-blue-700 transition">
+          戻る
+        </a>
+      </div>
+      <footer class="mt-8 text-center text-gray-400 text-xs">
         &copy; 2025 Yuto Fukui - All rights reserved.
       </footer>
     </div>

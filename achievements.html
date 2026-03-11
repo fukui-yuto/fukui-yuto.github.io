@@ -146,12 +146,12 @@
           </details>
 
           <details
-            class="group border-l-4 border-purple-500 bg-gradient-to-r from-indigo-50 to-white rounded-xl p-5 shadow-md hover:shadow-lg transition"
+            class="group border-l-4 border-purple-500 bg-gradient-to-r from-purple-50 to-white rounded-xl p-5 shadow-md hover:shadow-lg transition"
             open>
             <summary class="cursor-pointer flex items-center justify-between">
               <div class="flex items-center space-x-3">
                 <div>
-                  <p class="font-semibold text-indigo-700">ESXiのアップグレードを自動化・並列化し、従来12人月かかっていた作業を2人月に削減</p>
+                  <p class="font-semibold text-purple-700">ESXiのアップグレードを自動化・並列化し、従来12人月かかっていた作業を2人月に削減</p>
                 </div>
               </div>
               <span class="group-open:rotate-180 transition transform">▼</span>
@@ -162,6 +162,49 @@
                 従来の大規模なESXiアップデートは数年に一度、ESXiのEOSL（End of Service Life）対応を目的としていました。しかし近年、クリティカルな脆弱性が頻繁に報告され、セキュリティパッチの適用が年2回以上の頻度で必須となりました。従来半年がかりの手作業ではこの速度に対応できず、既知の脆弱性を長期間放置せざるを得ない深刻なリスクを抱えていました。<br><br>
                 この課題に対し、数千台規模のESXiアップデート作業をエンドツーエンドで自動化するパイプラインを設計・構築しました。このシステムは、対象ホスト群の事前チェック、アップデート適用、正常性確認、そして後処理までを一貫して実行します。特に、複数環境をまたいで安全にローリングアップデートできる並列処理の仕組みを実装したことにより、作業スピードが大幅に向上しました。<br><br>
                 この自動化により、従来12人月を要した工数は2人月へと83%削減され、半年かかっていた作業期間もわずか2週間へと劇的に短縮されました。これにより、緊急のセキュリティ勧告発行時にも迅速にパッチを展開できる体制が整い、事業継続性を脅かすセキュリティリスクを抜本的に低減。インフラ全体の信頼性と安全性を飛躍的に向上させることに成功しました。
+              </p>
+            </div>
+          </details>
+
+          <details
+            class="group border-l-4 border-blue-500 bg-gradient-to-r from-blue-50 to-white rounded-xl p-5 shadow-md hover:shadow-lg transition"
+            open>
+            <summary class="cursor-pointer flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <div>
+                  <p class="font-semibold text-blue-700">管理系VMの自動構築テンプレートを整備し、年間1人月→0.1人月に削減</p>
+                </div>
+              </div>
+              <span class="group-open:rotate-180 transition transform">▼</span>
+            </summary>
+            <div class="mt-4 text-sm text-gray-700">
+              <img src="img/ansible_for_jenkins.png" alt="Image" class="w-full md:w-5/6 mx-auto rounded-lg mb-4">
+              <p class="text-gray-700 leading-relaxed">
+                既存の管理系VMの構築プロセスには、手作業による非効率性や人的ミス、属人化といった課題がありました。特に、新規環境のセットアップやOSのサポート終了（EOS）に伴う移行作業では、これらの問題が顕著になり、大きな工数を要していました。<br><br>
+                この課題を解決するため、私はAnsibleを活用した構成管理の自動化を主導しました。具体的には、VMのプロビジョニングからミドルウェアのインストール、各種設定に至るまでの一連の手順をコード化し、再利用可能なAnsible Playbookとしてテンプレート化しました。<br><br>
+                さらに、Ansibleの操作に不慣れなメンバーでも直感的に利用できるよう、Jenkinsパイプラインを構築し、パラメータ化されたUIを通じて実行できる仕組みを導入しました。これにより、専門知識がない担当者でも、必要な情報を入力するだけで、安全かつ確実にVMを構築できるようになり、運用の属人化を解消しました。<br><br>
+                この取り組みの結果、従来は年間で約1人月を要していた構築作業を0.1人月まで大幅に短縮することに成功しました。作業時間の短縮だけでなく、手作業を排除したことによる品質の均一化と一貫性の確保、そしてチーム横断の生産性向上にも大きく貢献しました。
+              </p>
+            </div>
+          </details>
+
+          <details
+            class="group border-l-4 border-green-500 bg-gradient-to-r from-green-50 to-white rounded-xl p-5 shadow-md hover:shadow-lg transition"
+            open>
+            <summary class="cursor-pointer flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <div>
+                  <p class="font-semibold text-green-700">仮想化基盤の解体作業をフル自動化。人手で2人月かかっていた工程を0.1人月で完了できる仕組みに刷新</p>
+                </div>
+              </div>
+              <span class="group-open:rotate-180 transition transform">▼</span>
+            </summary>
+            <div class="mt-4 text-sm text-gray-700">
+              <img src="img/vcenter_decommissioning.png" alt="Image" class="w-full md:w-5/6 mx-auto rounded-lg mb-4">
+              <p class="text-gray-700 leading-relaxed">
+                環境撤去時のプロセスにおいて、Zabbixの監視解除、DNSレコード削除、vSphere上のVMクリーンナップ等が手作業で行われ、2人月もの工数が課題でした。<br><br>
+                各種操作するスクリプトを開発し、それらをパイプラインへ統合することで、撤去プロセス全体を自動化するツールを構築しました。これにより、関連する全リソースをワンクリックで安全かつ完全に削除できる仕組みを実現しました。<br><br>
+                結果として、従来2人月を要した作業を0.1人月へと短縮し、95%という大幅な工数削減を達成しました。さらに、リソースの迅速な再利用を可能にするなど、運用全体の品質向上にも大きく貢献しました。
               </p>
             </div>
           </details>

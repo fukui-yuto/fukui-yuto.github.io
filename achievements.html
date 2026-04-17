@@ -9,217 +9,315 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
+    :root {
+      --neon-cyan: #00d4ff;
+      --neon-green: #00ff88;
+      --neon-purple: #a855f7;
+      --dark-bg: #080c18;
+      --dark-card: #0d1225;
+    }
+
+    * { box-sizing: border-box; }
+
     body {
       font-family: 'Inter', sans-serif;
+      background-color: var(--dark-bg);
+      color: #e2e8f0;
     }
 
-    html {
-      scroll-behavior: smooth;
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    html { scroll-behavior: smooth; }
+
+    .grid-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background-image:
+        linear-gradient(rgba(0, 212, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 212, 255, 0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
     }
 
-    details summary {
-      cursor: pointer;
+    .fadeup {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 600ms ease, transform 600ms ease;
+    }
+    .fadeup.show { opacity: 1; transform: translateY(0); }
+
+    .nav-link {
+      position: relative;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      color: #94a3b8;
+      transition: color 0.2s;
+      text-decoration: none;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0;
+      width: 0; height: 1px;
+      background: var(--neon-cyan);
+      transition: width 0.25s;
+    }
+    .nav-link:hover { color: var(--neon-cyan); }
+    .nav-link:hover::after { width: 100%; }
+    .nav-link.active { color: var(--neon-cyan); }
+    .nav-link.active::after { width: 100%; }
+
+    .ach-card {
+      background: var(--dark-card);
+      border-left: 2px solid;
+      transition: all 0.3s;
+    }
+    .ach-card:hover { box-shadow: 0 0 20px rgba(0,212,255,0.06); }
+
+    /* Image container with light background for visibility */
+    .img-frame {
+      background: #f1f5f9;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .img-frame img {
+      display: block;
+      width: 100%;
+      max-width: 83.333%;
+      margin: 0 auto;
+      border-radius: 4px;
     }
 
-    details[open] summary {
-      margin-bottom: 0.5rem;
+    details summary { cursor: pointer; list-style: none; }
+    details summary::-webkit-details-marker { display: none; }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .section-header::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, rgba(0,212,255,0.5), transparent);
     }
 
-    details summary::marker {
-      color: #2563eb;
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
     }
+    .type-cursor {
+      animation: blink 0.85s step-end infinite;
+      color: var(--neon-cyan);
+    }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--dark-bg); }
+    ::-webkit-scrollbar-thumb { background: rgba(0,212,255,0.25); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(0,212,255,0.5); }
   </style>
 </head>
 
-<body class="bg-gradient-to-br from-blue-50 to-white text-gray-900">
+<body>
+  <div class="grid-bg"></div>
 
-  <!-- ===== ナビゲーション ===== -->
-  <header class="fixed top-0 inset-x-0 z-50 bg-white/80 backdrop-blur border-b border-blue-100">
-    <nav class="max-w-4xl mx-auto px-6 h-14 flex items-center justify-between">
-      <a href="index.html" class="font-semibold text-blue-600">Yuto Fukui</a>
-      <ul class="flex space-x-4 text-sm font-medium text-gray-600">
-        <li><a href="index.html#work" class="hover:text-blue-600">業務</a></li>
-        <li><a href="index.html#skills" class="hover:text-blue-600">スキル</a></li>
-        <li><a href="index.html#certs" class="hover:text-blue-600">資格</a></li>
-        <li><a href="achievements.html" class="hover:text-blue-600 font-bold text-blue-600">実績</a></li>
+  <!-- Navigation -->
+  <header class="fixed top-0 inset-x-0 z-50" style="background: rgba(8,12,24,0.9); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(0,212,255,0.08);">
+    <nav class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
+      <a href="index.html" class="mono font-bold text-sm" style="color: var(--neon-cyan); text-decoration: none;">
+        <span style="color: #334155;">&gt;&nbsp;</span>fukui-yuto<span class="type-cursor">_</span>
+      </a>
+      <ul class="flex space-x-6">
+        <li><a href="index.html#work" class="nav-link">01.業務</a></li>
+        <li><a href="index.html#skills" class="nav-link">02.スキル</a></li>
+        <li><a href="index.html#certs" class="nav-link">03.資格</a></li>
+        <li><a href="achievements.html" class="nav-link active">04.実績</a></li>
       </ul>
     </nav>
   </header>
 
   <div class="h-14"></div>
 
-  <div class="max-w-4xl mx-auto px-6 py-12">
-    <div class="bg-white shadow-xl rounded-3xl p-10 border border-blue-100">
+  <div class="max-w-5xl mx-auto px-6 py-16">
 
-      <!-- 実績 -->
-      <section id="achievements">
-        <h2 class="text-xl font-semibold text-blue-600 mb-4">🏆 実績</h2>
-        <div class="space-y-6">
-
-          <details
-            class="group border-l-4 border-blue-500 bg-gradient-to-r from-blue-50 to-white rounded-xl p-5 shadow-md hover:shadow-lg transition"
-            open>
-            <summary class="cursor-pointer flex items-center justify-between">
-              <div class="flex items-center space-x-3">
-                <div>
-                  <p class="font-semibold text-blue-700">Syslogの構築自動化により、ログ分析基盤の統一と保守性向上を実現</p>
-                </div>
-              </div>
-              <span class="group-open:rotate-180 transition transform">▼</span>
-            </summary>
-            <div class="mt-4 text-sm text-gray-700">
-              <img src="img/syslog.png" alt="Image" class="w-full md:w-5/6 mx-auto rounded-lg mb-4">
-              <p class="text-gray-700 leading-relaxed">
-                ESXiサーバのログは日次でローテートされるため、障害発生時の詳細な原因追跡が困難という課題がありました。加えて、多数のSyslog
-                VMがサポート切れのOSで稼働しており、セキュリティ上のリスクも抱えていました。<br><br>
-                この状況を解決するため、Ansibleを用いてSyslog
-                VMのデプロイ、OS設定、正常性確認に至るまでの一連のプロセスを自動化しました。この仕組みにより、数十台規模のVM群を迅速かつ一括で、常に最新の状態へ更新できる体制を構築しました。<br><br>
-                結果として、全サーバのログを永続的に保管・分析する基盤が整い、障害対応の精度と速度が大幅に向上しました。同時に、OSのバージョンを常に最新に保つ運用が実現したことで、セキュリティリスクを抜本的に低減し、システムの保守性と安全性を飛躍的に高めることに成功しました。
-              </p>
-            </div>
-          </details>
-
-          <details
-            class="group border-l-4 border-green-500 bg-gradient-to-r from-green-50 to-white rounded-xl p-5 shadow-md hover:shadow-lg transition"
-            open>
-            <summary class="cursor-pointer flex items-center justify-between">
-              <div class="flex items-center space-x-3">
-                <div>
-                  <p class="font-semibold text-green-700">数千台のESXiホストを一元管理するシステムを開発し、最適なリソース配置を自動化</p>
-                </div>
-              </div>
-              <span class="group-open:rotate-180 transition transform">▼</span>
-            </summary>
-            <div class="mt-4 text-sm text-gray-700">
-              <img src="img/resource_monitoring.png" alt="Image" class="w-full md:w-5/6 mx-auto rounded-lg mb-4">
-              <p class="text-gray-700 leading-relaxed">
-                数千台規模の仮想化環境において、ハードウェア障害時のリソース不足によるサービス停止が潜在的なリスクでした。また、リソース配分の最適化は一部の専門担当者の経験知に依存しており、作業の属人化と非効率性が課題でした。<br><br>
-                この課題に対し、全ホストのCPU・メモリ使用率や統合率といった主要なKPIを常時監視し、リソースの逼迫リスクを予測するシステムを開発しました。さらに、リソースが不足した環境に対し、供給元の候補を自動で選定・推奨するアルゴリズムを実装。これにより、従来は高度な判断を要したリソースの最適配置を自動化しました。<br><br>
-                本システムの導入により、インフラ全体の可用性が大きく向上。加えて、専門知識への依存から脱却し、誰でも最適なリソース管理を行える体制を確立しました。結果として、この運用に費やされていた年間5人月の工数を0.5人月へと、実に90%もの削減に成功しました。
-              </p>
-            </div>
-          </details>
-
-          <details
-            class="group border-l-4 border-amber-500 bg-gradient-to-r from-amber-50 to-white rounded-xl p-5 shadow-md hover:shadow-lg transition"
-            open>
-            <summary class="cursor-pointer flex items-center justify-between">
-              <div class="flex items-center space-x-3">
-                <div>
-                  <p class="font-semibold text-amber-700">アップグレード前検証を完全自動化し、現場の作業負荷とリスクを軽減</p>
-                </div>
-              </div>
-              <span class="group-open:rotate-180 transition transform">▼</span>
-            </summary>
-            <div class="mt-4 text-sm text-gray-700">
-              <img src="img/verification.png" alt="Image" class="w-full md:w-5/6 mx-auto rounded-lg mb-4">
-              <p class="text-gray-700 leading-relaxed">
-                vCenter/ESXiのアップグレードは、基幹インフラの安定稼働を左右する重要な作業です。従来、数百項目に及ぶ動作検証を手作業で行っており、3人月という膨大な工数と、ヒューマンエラーによる見落としのリスクが大きな課題でした。<br><br>
-                そこで、Ansibleを活用したテスト自動化フレームワークを設計・構築しました。この仕組みは、数百のテストケースを自動で実行するだけでなく、全項目の試験結果と操作ログを証跡として自動的に記録・保存します。これにより、人手を介さない一貫した品質での検証と、完全なトレーサビリティを両立させました。<br><br>
-                この自動化により、検証作業の工数を3人月から0.5人月へと約83%削減しただけでなく、作業品質の標準化と信頼性の向上を実現。アップグレードに伴うリスクを大幅に低減し、より迅速かつ安全なインフラ更新サイクルを確立しました。
-              </p>
-            </div>
-          </details>
-
-          <details
-            class="group border-l-4 border-indigo-500 bg-gradient-to-r from-indigo-50 to-white rounded-xl p-5 shadow-md hover:shadow-lg transition"
-            open>
-            <summary class="cursor-pointer flex items-center justify-between">
-              <div class="flex items-center space-x-3">
-                <div>
-                  <p class="font-semibold text-indigo-700">ESXiホスト構築フローを完全自動化し、構築スピードの向上と現場の作業負荷を軽減</p>
-                </div>
-              </div>
-              <span class="group-open:rotate-180 transition transform">▼</span>
-            </summary>
-            <div class="mt-4 text-sm text-gray-700">
-              <img src="img/esxi_auto_build.png" alt="Image" class="w-full md:w-5/6 mx-auto rounded-lg mb-4">
-              <p class="text-gray-700 leading-relaxed">
-                従来のESXiホスト構築プロセスは、多数のツール実行と手作業が混在し、手順が分断されていました。このため、1台の構築に6時間を要し、パラメータの誤入力や手順の抜け漏れといったヒューマンエラーが発生しやすく、迅速性と信頼性の観点で課題がありました。<br><br>
-                この課題を根本から解決するため、点在していた各種ツールや手作業のプロセスを一つのパイプラインとして統合し、ホスト構築をエンドツーエンドで自動化する仕組みを設計・実装しました。これにより、一貫性のある高品質な構築を「ワンクリック」で実現するワークフローを確立しました。<br><br>
-                このパイプライン化により、1台あたりの構築時間は6時間から2時間へと67%短縮され、インフラの提供速度が飛躍的に向上しました。また、手作業を完全に排除したことで、ヒューマンエラーのリスクを根絶し、構築品質を標準化。結果として、年間約3人月の工数削減を達成し、エンジニアがより付加価値の高い業務に集中できる環境を創出しました。
-              </p>
-            </div>
-          </details>
-
-          <details
-            class="group border-l-4 border-purple-500 bg-gradient-to-r from-purple-50 to-white rounded-xl p-5 shadow-md hover:shadow-lg transition"
-            open>
-            <summary class="cursor-pointer flex items-center justify-between">
-              <div class="flex items-center space-x-3">
-                <div>
-                  <p class="font-semibold text-purple-700">ESXiのアップグレードを自動化・並列化し、従来12人月かかっていた作業を2人月に削減</p>
-                </div>
-              </div>
-              <span class="group-open:rotate-180 transition transform">▼</span>
-            </summary>
-            <div class="mt-4 text-sm text-gray-700">
-              <img src="img/esxi_rolling_update.png" alt="Image" class="w-full md:w-5/6 mx-auto rounded-lg mb-4">
-              <p class="text-gray-700 leading-relaxed">
-                従来の大規模なESXiアップデートは数年に一度、ESXiのEOSL（End of Service Life）対応を目的としていました。しかし近年、クリティカルな脆弱性が頻繁に報告され、セキュリティパッチの適用が年2回以上の頻度で必須となりました。従来半年がかりの手作業ではこの速度に対応できず、既知の脆弱性を長期間放置せざるを得ない深刻なリスクを抱えていました。<br><br>
-                この課題に対し、数千台規模のESXiアップデート作業をエンドツーエンドで自動化するパイプラインを設計・構築しました。このシステムは、対象ホスト群の事前チェック、アップデート適用、正常性確認、そして後処理までを一貫して実行します。特に、複数環境をまたいで安全にローリングアップデートできる並列処理の仕組みを実装したことにより、作業スピードが大幅に向上しました。<br><br>
-                この自動化により、従来12人月を要した工数は2人月へと83%削減され、半年かかっていた作業期間もわずか2週間へと劇的に短縮されました。これにより、緊急のセキュリティ勧告発行時にも迅速にパッチを展開できる体制が整い、事業継続性を脅かすセキュリティリスクを抜本的に低減。インフラ全体の信頼性と安全性を飛躍的に向上させることに成功しました。
-              </p>
-            </div>
-          </details>
-
-          <details
-            class="group border-l-4 border-blue-500 bg-gradient-to-r from-blue-50 to-white rounded-xl p-5 shadow-md hover:shadow-lg transition"
-            open>
-            <summary class="cursor-pointer flex items-center justify-between">
-              <div class="flex items-center space-x-3">
-                <div>
-                  <p class="font-semibold text-blue-700">管理系VMの自動構築テンプレートを整備し、年間1人月→0.1人月に削減</p>
-                </div>
-              </div>
-              <span class="group-open:rotate-180 transition transform">▼</span>
-            </summary>
-            <div class="mt-4 text-sm text-gray-700">
-              <img src="img/ansible_for_jenkins.png" alt="Image" class="w-full md:w-5/6 mx-auto rounded-lg mb-4">
-              <p class="text-gray-700 leading-relaxed">
-                既存の管理系VMの構築プロセスには、手作業による非効率性や人的ミス、属人化といった課題がありました。特に、新規環境のセットアップやOSのサポート終了（EOS）に伴う移行作業では、これらの問題が顕著になり、大きな工数を要していました。<br><br>
-                この課題を解決するため、私はAnsibleを活用した構成管理の自動化を主導しました。具体的には、VMのプロビジョニングからミドルウェアのインストール、各種設定に至るまでの一連の手順をコード化し、再利用可能なAnsible Playbookとしてテンプレート化しました。<br><br>
-                さらに、Ansibleの操作に不慣れなメンバーでも直感的に利用できるよう、Jenkinsパイプラインを構築し、パラメータ化されたUIを通じて実行できる仕組みを導入しました。これにより、専門知識がない担当者でも、必要な情報を入力するだけで、安全かつ確実にVMを構築できるようになり、運用の属人化を解消しました。<br><br>
-                この取り組みの結果、従来は年間で約1人月を要していた構築作業を0.1人月まで大幅に短縮することに成功しました。作業時間の短縮だけでなく、手作業を排除したことによる品質の均一化と一貫性の確保、そしてチーム横断の生産性向上にも大きく貢献しました。
-              </p>
-            </div>
-          </details>
-
-          <details
-            class="group border-l-4 border-green-500 bg-gradient-to-r from-green-50 to-white rounded-xl p-5 shadow-md hover:shadow-lg transition"
-            open>
-            <summary class="cursor-pointer flex items-center justify-between">
-              <div class="flex items-center space-x-3">
-                <div>
-                  <p class="font-semibold text-green-700">仮想化基盤の解体作業をフル自動化。人手で2人月かかっていた工程を0.1人月で完了できる仕組みに刷新</p>
-                </div>
-              </div>
-              <span class="group-open:rotate-180 transition transform">▼</span>
-            </summary>
-            <div class="mt-4 text-sm text-gray-700">
-              <img src="img/vcenter_decommissioning.png" alt="Image" class="w-full md:w-5/6 mx-auto rounded-lg mb-4">
-              <p class="text-gray-700 leading-relaxed">
-                環境撤去時のプロセスにおいて、Zabbixの監視解除、DNSレコード削除、vSphere上のVMクリーンナップ等が手作業で行われ、2人月もの工数が課題でした。<br><br>
-                各種操作するスクリプトを開発し、それらをパイプラインへ統合することで、撤去プロセス全体を自動化するツールを構築しました。これにより、関連する全リソースをワンクリックで安全かつ完全に削除できる仕組みを実現しました。<br><br>
-                結果として、従来2人月を要した作業を0.1人月へと短縮し、95%という大幅な工数削減を達成しました。さらに、リソースの迅速な再利用を可能にするなど、運用全体の品質向上にも大きく貢献しました。
-              </p>
-            </div>
-          </details>
-        </div>
-      </section>
-      <div class="mt-4 text-center">
-        <a href="index.html"
-          class="inline-block bg-blue-600 text-white font-semibold px-8 py-2 rounded-lg shadow-md hover:bg-blue-700 transition">
-          戻る
-        </a>
+    <div class="fadeup mb-10">
+      <div class="mono text-sm mb-3" style="color: #334155;">
+        <span style="color: var(--neon-green);">$</span>&nbsp;cat achievements.md
       </div>
-      <footer class="mt-8 text-center text-gray-400 text-xs">
-        &copy; 2025 Yuto Fukui - All rights reserved.
-      </footer>
+      <div class="section-header">
+        <span class="mono text-xs font-bold" style="color: var(--neon-cyan);">04</span>
+        <h1 class="font-bold text-lg tracking-wide" style="color: var(--neon-cyan);">実績</h1>
+      </div>
     </div>
+
+    <div class="space-y-5">
+
+      <!-- Syslog -->
+      <details class="ach-card rounded-lg overflow-hidden fadeup" style="border-color: #60a5fa;" open>
+        <summary class="p-5 flex items-center justify-between hover:bg-white/5 transition-colors">
+          <div>
+            <p class="font-semibold text-slate-200 text-sm">Syslogの構築自動化により、ログ分析基盤の統一と保守性向上を実現</p>
+          </div>
+          <span class="mono text-xs ml-4 flex-shrink-0" style="color: var(--neon-cyan);" data-chevron>[ - ]</span>
+        </summary>
+        <div class="px-5 pb-5">
+          <div class="img-frame"><img src="img/syslog.png" alt="Image"></div>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            ESXiサーバのログは日次でローテートされるため、障害発生時の詳細な原因追跡が困難という課題がありました。加えて、多数のSyslog
+            VMがサポート切れのOSで稼働しており、セキュリティ上のリスクも抱えていました。<br><br>
+            この状況を解決するため、Ansibleを用いてSyslog
+            VMのデプロイ、OS設定、正常性確認に至るまでの一連のプロセスを自動化しました。この仕組みにより、数十台規模のVM群を迅速かつ一括で、常に最新の状態へ更新できる体制を構築しました。<br><br>
+            結果として、全サーバのログを永続的に保管・分析する基盤が整い、障害対応の精度と速度が大幅に向上しました。同時に、OSのバージョンを常に最新に保つ運用が実現したことで、セキュリティリスクを抜本的に低減し、システムの保守性と安全性を飛躍的に高めることに成功しました。
+          </p>
+        </div>
+      </details>
+
+      <!-- ESXi resource -->
+      <details class="ach-card rounded-lg overflow-hidden fadeup" style="border-color: #4ade80;" open>
+        <summary class="p-5 flex items-center justify-between hover:bg-white/5 transition-colors">
+          <div>
+            <p class="font-semibold text-slate-200 text-sm">数千台のESXiホストを一元管理するシステムを開発し、最適なリソース配置を自動化</p>
+          </div>
+          <span class="mono text-xs ml-4 flex-shrink-0" style="color: var(--neon-cyan);" data-chevron>[ - ]</span>
+        </summary>
+        <div class="px-5 pb-5">
+          <div class="img-frame"><img src="img/resource_monitoring.png" alt="Image"></div>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            数千台規模の仮想化環境において、ハードウェア障害時のリソース不足によるサービス停止が潜在的なリスクでした。また、リソース配分の最適化は一部の専門担当者の経験知に依存しており、作業の属人化と非効率性が課題でした。<br><br>
+            この課題に対し、全ホストのCPU・メモリ使用率や統合率といった主要なKPIを常時監視し、リソースの逼迫リスクを予測するシステムを開発しました。さらに、リソースが不足した環境に対し、供給元の候補を自動で選定・推奨するアルゴリズムを実装。これにより、従来は高度な判断を要したリソースの最適配置を自動化しました。<br><br>
+            本システムの導入により、インフラ全体の可用性が大きく向上。加えて、専門知識への依存から脱却し、誰でも最適なリソース管理を行える体制を確立しました。結果として、この運用に費やされていた年間5人月の工数を0.5人月へと、実に90%もの削減に成功しました。
+          </p>
+        </div>
+      </details>
+
+      <!-- Upgrade verification -->
+      <details class="ach-card rounded-lg overflow-hidden fadeup" style="border-color: #fbbf24;" open>
+        <summary class="p-5 flex items-center justify-between hover:bg-white/5 transition-colors">
+          <div>
+            <p class="font-semibold text-slate-200 text-sm">アップグレード前検証を完全自動化し、現場の作業負荷とリスクを軽減</p>
+          </div>
+          <span class="mono text-xs ml-4 flex-shrink-0" style="color: var(--neon-cyan);" data-chevron>[ - ]</span>
+        </summary>
+        <div class="px-5 pb-5">
+          <div class="img-frame"><img src="img/verification.png" alt="Image"></div>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            vCenter/ESXiのアップグレードは、基幹インフラの安定稼働を左右する重要な作業です。従来、数百項目に及ぶ動作検証を手作業で行っており、3人月という膨大な工数と、ヒューマンエラーによる見落としのリスクが大きな課題でした。<br><br>
+            そこで、Ansibleを活用したテスト自動化フレームワークを設計・構築しました。この仕組みは、数百のテストケースを自動で実行するだけでなく、全項目の試験結果と操作ログを証跡として自動的に記録・保存します。これにより、人手を介さない一貫した品質での検証と、完全なトレーサビリティを両立させました。<br><br>
+            この自動化により、検証作業の工数を3人月から0.5人月へと約83%削減しただけでなく、作業品質の標準化と信頼性の向上を実現。アップグレードに伴うリスクを大幅に低減し、より迅速かつ安全なインフラ更新サイクルを確立しました。
+          </p>
+        </div>
+      </details>
+
+      <!-- ESXi build automation -->
+      <details class="ach-card rounded-lg overflow-hidden fadeup" style="border-color: #818cf8;" open>
+        <summary class="p-5 flex items-center justify-between hover:bg-white/5 transition-colors">
+          <div>
+            <p class="font-semibold text-slate-200 text-sm">ESXiホスト構築フローを完全自動化し、構築スピードの向上と現場の作業負荷を軽減</p>
+          </div>
+          <span class="mono text-xs ml-4 flex-shrink-0" style="color: var(--neon-cyan);" data-chevron>[ - ]</span>
+        </summary>
+        <div class="px-5 pb-5">
+          <div class="img-frame"><img src="img/esxi_auto_build.png" alt="Image"></div>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            従来のESXiホスト構築プロセスは、多数のツール実行と手作業が混在し、手順が分断されていました。このため、1台の構築に6時間を要し、パラメータの誤入力や手順の抜け漏れといったヒューマンエラーが発生しやすく、迅速性と信頼性の観点で課題がありました。<br><br>
+            この課題を根本から解決するため、点在していた各種ツールや手作業のプロセスを一つのパイプラインとして統合し、ホスト構築をエンドツーエンドで自動化する仕組みを設計・実装しました。これにより、一貫性のある高品質な構築を「ワンクリック」で実現するワークフローを確立しました。<br><br>
+            このパイプライン化により、1台あたりの構築時間は6時間から2時間へと67%短縮され、インフラの提供速度が飛躍的に向上しました。また、手作業を完全に排除したことで、ヒューマンエラーのリスクを根絶し、構築品質を標準化。結果として、年間約3人月の工数削減を達成し、エンジニアがより付加価値の高い業務に集中できる環境を創出しました。
+          </p>
+        </div>
+      </details>
+
+      <!-- ESXi rolling update -->
+      <details class="ach-card rounded-lg overflow-hidden fadeup" style="border-color: #c084fc;" open>
+        <summary class="p-5 flex items-center justify-between hover:bg-white/5 transition-colors">
+          <div>
+            <p class="font-semibold text-slate-200 text-sm">ESXiのアップグレードを自動化・並列化し、従来12人月かかっていた作業を2人月に削減</p>
+          </div>
+          <span class="mono text-xs ml-4 flex-shrink-0" style="color: var(--neon-cyan);" data-chevron>[ - ]</span>
+        </summary>
+        <div class="px-5 pb-5">
+          <div class="img-frame"><img src="img/esxi_rolling_update.png" alt="Image"></div>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            従来の大規模なESXiアップデートは数年に一度、ESXiのEOSL（End of Service Life）対応を目的としていました。しかし近年、クリティカルな脆弱性が頻繁に報告され、セキュリティパッチの適用が年2回以上の頻度で必須となりました。従来半年がかりの手作業ではこの速度に対応できず、既知の脆弱性を長期間放置せざるを得ない深刻なリスクを抱えていました。<br><br>
+            この課題に対し、数千台規模のESXiアップデート作業をエンドツーエンドで自動化するパイプラインを設計・構築しました。このシステムは、対象ホスト群の事前チェック、アップデート適用、正常性確認、そして後処理までを一貫して実行します。特に、複数環境をまたいで安全にローリングアップデートできる並列処理の仕組みを実装したことにより、作業スピードが大幅に向上しました。<br><br>
+            この自動化により、従来12人月を要した工数は2人月へと83%削減され、半年かかっていた作業期間もわずか2週間へと劇的に短縮されました。これにより、緊急のセキュリティ勧告発行時にも迅速にパッチを展開できる体制が整い、事業継続性を脅かすセキュリティリスクを抜本的に低減。インフラ全体の信頼性と安全性を飛躍的に向上させることに成功しました。
+          </p>
+        </div>
+      </details>
+
+      <!-- Ansible for Jenkins -->
+      <details class="ach-card rounded-lg overflow-hidden fadeup" style="border-color: var(--neon-cyan);" open>
+        <summary class="p-5 flex items-center justify-between hover:bg-white/5 transition-colors">
+          <div>
+            <p class="font-semibold text-slate-200 text-sm">管理系VMの自動構築テンプレートを整備し、年間1人月→0.1人月に削減</p>
+          </div>
+          <span class="mono text-xs ml-4 flex-shrink-0" style="color: var(--neon-cyan);" data-chevron>[ - ]</span>
+        </summary>
+        <div class="px-5 pb-5">
+          <div class="img-frame"><img src="img/ansible_for_jenkins.png" alt="Image"></div>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            既存の管理系VMの構築プロセスには、手作業による非効率性や人的ミス、属人化といった課題がありました。特に、新規環境のセットアップやOSのサポート終了（EOS）に伴う移行作業では、これらの問題が顕著になり、大きな工数を要していました。<br><br>
+            この課題を解決するため、私はAnsibleを活用した構成管理の自動化を主導しました。具体的には、VMのプロビジョニングからミドルウェアのインストール、各種設定に至るまでの一連の手順をコード化し、再利用可能なAnsible Playbookとしてテンプレート化しました。<br><br>
+            さらに、Ansibleの操作に不慣れなメンバーでも直感的に利用できるよう、Jenkinsパイプラインを構築し、パラメータ化されたUIを通じて実行できる仕組みを導入しました。これにより、専門知識がない担当者でも、必要な情報を入力するだけで、安全かつ確実にVMを構築できるようになり、運用の属人化を解消しました。<br><br>
+            この取り組みの結果、従来は年間で約1人月を要していた構築作業を0.1人月まで大幅に短縮することに成功しました。作業時間の短縮だけでなく、手作業を排除したことによる品質の均一化と一貫性の確保、そしてチーム横断の生産性向上にも大きく貢献しました。
+          </p>
+        </div>
+      </details>
+
+      <!-- vCenter decommission -->
+      <details class="ach-card rounded-lg overflow-hidden fadeup" style="border-color: #4ade80;" open>
+        <summary class="p-5 flex items-center justify-between hover:bg-white/5 transition-colors">
+          <div>
+            <p class="font-semibold text-slate-200 text-sm">仮想化基盤の解体作業をフル自動化。人手で2人月かかっていた工程を0.1人月で完了できる仕組みに刷新</p>
+          </div>
+          <span class="mono text-xs ml-4 flex-shrink-0" style="color: var(--neon-cyan);" data-chevron>[ - ]</span>
+        </summary>
+        <div class="px-5 pb-5">
+          <div class="img-frame"><img src="img/vcenter_decommissioning.png" alt="Image"></div>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            環境撤去時のプロセスにおいて、Zabbixの監視解除、DNSレコード削除、vSphere上のVMクリーンナップ等が手作業で行われ、2人月もの工数が課題でした。<br><br>
+            各種操作するスクリプトを開発し、それらをパイプラインへ統合することで、撤去プロセス全体を自動化するツールを構築しました。これにより、関連する全リソースをワンクリックで安全かつ完全に削除できる仕組みを実現しました。<br><br>
+            結果として、従来2人月を要した作業を0.1人月へと短縮し、95%という大幅な工数削減を達成しました。さらに、リソースの迅速な再利用を可能にするなど、運用全体の品質向上にも大きく貢献しました。
+          </p>
+        </div>
+      </details>
+
+    </div>
+
+    <div class="mt-8 text-center fadeup">
+      <a href="index.html" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-sm transition-all duration-300 hover:scale-105" style="background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.25); color: var(--neon-cyan);">
+        <span class="mono">←</span> 戻る
+      </a>
+    </div>
+
+    <footer class="mt-12 text-center py-4" style="border-top: 1px solid rgba(0,212,255,0.08);">
+      <p class="mono text-xs" style="color: #334155;">&copy; 2025 Yuto Fukui - All rights reserved.</p>
+    </footer>
   </div>
+
+  <script>
+    const items = document.querySelectorAll('.fadeup');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('show');
+      });
+    }, { threshold: 0.08 });
+    items.forEach(el => observer.observe(el));
+
+    document.querySelectorAll('details').forEach(detail => {
+      const chevron = detail.querySelector('[data-chevron]');
+      if (chevron) chevron.textContent = detail.open ? '[ - ]' : '[ + ]';
+      detail.addEventListener('toggle', () => {
+        if (chevron) chevron.textContent = detail.open ? '[ - ]' : '[ + ]';
+      });
+    });
+  </script>
 </body>
+
 </html>

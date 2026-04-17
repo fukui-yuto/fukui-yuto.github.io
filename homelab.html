@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home Lab - Yuto Fukui</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --neon-cyan: #00d4ff;
+      --neon-green: #00ff88;
+      --neon-purple: #a855f7;
+      --neon-orange: #fb923c;
+      --dark-bg: #080c18;
+      --dark-card: #0d1225;
+    }
+
+    * { box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background-color: var(--dark-bg); color: #e2e8f0; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    html { scroll-behavior: smooth; }
+
+    .grid-bg {
+      position: fixed; inset: 0; z-index: -1;
+      background-image:
+        linear-gradient(rgba(0,212,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .fadeup {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 600ms ease, transform 600ms ease;
+    }
+    .fadeup.show { opacity: 1; transform: translateY(0); }
+
+    .nav-link {
+      position: relative; font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem; letter-spacing: 0.08em; color: #94a3b8;
+      transition: color 0.2s; text-decoration: none;
+    }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: -2px; left: 0;
+      width: 0; height: 1px; background: var(--neon-cyan); transition: width 0.25s;
+    }
+    .nav-link:hover { color: var(--neon-cyan); }
+    .nav-link:hover::after { width: 100%; }
+    .nav-link.active { color: var(--neon-cyan); }
+    .nav-link.active::after { width: 100%; }
+
+    .neon-card {
+      background: var(--dark-card);
+      border: 1px solid rgba(0,212,255,0.12);
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+    }
+    .neon-card:hover {
+      border-color: rgba(0,212,255,0.4);
+      box-shadow: 0 0 20px rgba(0,212,255,0.08);
+      transform: translateY(-2px);
+    }
+
+    .section-header {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 20px;
+    }
+    .section-header::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(to right, rgba(0,212,255,0.5), transparent);
+    }
+
+    .skill-badge {
+      display: inline-flex; align-items: center;
+      padding: 3px 10px; border-radius: 3px;
+      font-size: 0.72rem; font-family: 'JetBrains Mono', monospace;
+      font-weight: 600; letter-spacing: 0.04em; border: 1px solid;
+      transition: all 0.2s; cursor: default;
+    }
+    .skill-badge:hover { transform: translateY(-2px); filter: brightness(1.2); }
+
+    @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0; } }
+    .type-cursor { animation: blink 0.85s step-end infinite; color: var(--neon-cyan); }
+
+    @keyframes pulse-dot {
+      0%,100% { box-shadow: 0 0 4px currentColor; }
+      50% { box-shadow: 0 0 12px currentColor, 0 0 20px currentColor; }
+    }
+    .pulse { animation: pulse-dot 2s ease-in-out infinite; }
+
+    /* Node card */
+    .node-card {
+      background: var(--dark-card);
+      border: 1px solid rgba(0,212,255,0.12);
+      border-radius: 10px;
+      padding: 16px;
+      transition: all 0.3s;
+    }
+    .node-card:hover {
+      border-color: rgba(0,212,255,0.4);
+      box-shadow: 0 0 24px rgba(0,212,255,0.1);
+    }
+
+    /* Tech stack badge */
+    .tech-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 12px; border-radius: 6px;
+      font-size: 0.75rem; font-weight: 600;
+      border: 1px solid; transition: all 0.2s;
+    }
+    .tech-badge:hover { transform: translateY(-2px); }
+
+    /* Wave badge */
+    .wave-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem; padding: 2px 6px;
+      border-radius: 3px; border: 1px solid;
+    }
+
+    /* Phase step */
+    .phase-step {
+      display: flex; gap: 16px; align-items: flex-start;
+    }
+    .phase-num {
+      width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 700;
+      flex-shrink: 0; border: 1px solid;
+    }
+
+    /* AIOps highlight */
+    .aiops-card {
+      background: linear-gradient(135deg, rgba(168,85,247,0.08), rgba(0,212,255,0.05));
+      border: 1px solid rgba(168,85,247,0.25);
+      border-radius: 10px; padding: 20px;
+      transition: all 0.3s;
+    }
+    .aiops-card:hover {
+      border-color: rgba(168,85,247,0.5);
+      box-shadow: 0 0 24px rgba(168,85,247,0.1);
+    }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--dark-bg); }
+    ::-webkit-scrollbar-thumb { background: rgba(0,212,255,0.25); border-radius: 3px; }
+
+    @keyframes scan {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(100vh); }
+    }
+    .scanline {
+      position: absolute; left: 0; right: 0; height: 2px;
+      background: linear-gradient(to bottom, transparent, rgba(0,212,255,0.06), transparent);
+      animation: scan 6s linear infinite; pointer-events: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="grid-bg"></div>
+
+  <!-- Nav -->
+  <header class="fixed top-0 inset-x-0 z-50" style="background: rgba(8,12,24,0.9); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(0,212,255,0.08);">
+    <nav class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
+      <a href="index.html" class="mono font-bold text-sm" style="color: var(--neon-cyan); text-decoration: none;">
+        <span style="color: #334155;">&gt;&nbsp;</span>fukui-yuto<span class="type-cursor">_</span>
+      </a>
+      <ul class="flex space-x-6">
+        <li><a href="index.html" class="nav-link">Portfolio</a></li>
+        <li><a href="achievements.html" class="nav-link">実績</a></li>
+        <li><a href="homelab.html" class="nav-link active">Home Lab</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="h-14"></div>
+
+  <!-- Hero -->
+  <section class="relative overflow-hidden py-20 px-6" style="background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(0,212,255,0.06) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 80% 20%, rgba(168,85,247,0.05) 0%, transparent 60%);">
+    <div class="scanline"></div>
+    <div class="max-w-5xl mx-auto relative z-10 fadeup">
+      <div class="mono text-sm mb-3" style="color: #334155;">
+        <span style="color: var(--neon-green);">$</span>&nbsp;cat homelab/README.md
+      </div>
+      <h1 class="text-5xl md:text-7xl font-bold mono tracking-tight mb-3" style="color: #f1f5f9;">Home Lab</h1>
+      <p class="text-base text-slate-400 mb-6 leading-relaxed">
+        Intel NUC 2台 + BOSGAME E2 1台 + Raspberry Pi 5 による自宅 Proxmox VE クラスター。<br>
+        IaC・GitOps・フル可観測性・AIOps まで一貫して構築・運用中。
+      </p>
+      <div class="flex flex-wrap gap-2">
+        <span class="skill-badge" style="color: var(--neon-cyan); border-color: rgba(0,212,255,0.35); background: rgba(0,212,255,0.06);">Proxmox VE</span>
+        <span class="skill-badge" style="color: var(--neon-green); border-color: rgba(0,255,136,0.35); background: rgba(0,255,136,0.06);">k3s</span>
+        <span class="skill-badge" style="color: var(--neon-purple); border-color: rgba(168,85,247,0.35); background: rgba(168,85,247,0.06);">ArgoCD</span>
+        <span class="skill-badge" style="color: #fb923c; border-color: rgba(251,146,60,0.35); background: rgba(251,146,60,0.06);">AIOps</span>
+        <span class="skill-badge" style="color: #c084fc; border-color: rgba(192,132,252,0.35); background: rgba(192,132,252,0.06);">MCP Server</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="max-w-5xl mx-auto px-6 pb-20 space-y-16">
+
+    <!-- ハードウェア構成 -->
+    <section class="fadeup">
+      <div class="section-header">
+        <span class="mono text-xs font-bold" style="color: var(--neon-cyan);">01</span>
+        <h2 class="font-bold text-base tracking-wide" style="color: var(--neon-cyan);">ハードウェア構成</h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-4 mb-4">
+        <!-- Raspberry Pi -->
+        <div class="node-card" style="border-color: rgba(0,255,136,0.2);">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-2.5 h-2.5 rounded-full pulse" style="background: var(--neon-green); color: var(--neon-green);"></div>
+            <span class="mono text-xs font-bold" style="color: var(--neon-green);">Raspberry Pi 5</span>
+          </div>
+          <p class="text-xs text-slate-400 mb-2">管理・自動化ノード</p>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="skill-badge" style="color: var(--neon-green); border-color: rgba(0,255,136,0.3); background: rgba(0,255,136,0.06); font-size: 0.65rem;">corosync-qnetd</span>
+            <span class="skill-badge" style="color: var(--neon-green); border-color: rgba(0,255,136,0.3); background: rgba(0,255,136,0.06); font-size: 0.65rem;">Ansible</span>
+            <span class="skill-badge" style="color: var(--neon-green); border-color: rgba(0,255,136,0.3); background: rgba(0,255,136,0.06); font-size: 0.65rem;">Terraform</span>
+            <span class="skill-badge" style="color: var(--neon-green); border-color: rgba(0,255,136,0.3); background: rgba(0,255,136,0.06); font-size: 0.65rem;">MCP Server</span>
+          </div>
+        </div>
+
+        <!-- Proxmox Cluster -->
+        <div class="node-card">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-2.5 h-2.5 rounded-full pulse" style="background: var(--neon-cyan); color: var(--neon-cyan);"></div>
+            <span class="mono text-xs font-bold" style="color: var(--neon-cyan);">Proxmox Cluster "homelab"</span>
+          </div>
+          <div class="space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-slate-300">pve-node01</span>
+              <span class="text-slate-500">NUC5i3RYH / i3-5010U / 16GB</span>
+            </div>
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-slate-300">pve-node02</span>
+              <span class="text-slate-500">NUC5i3RYH / i3-5010U / 16GB</span>
+            </div>
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-slate-300">pve-node03</span>
+              <span class="text-slate-500">BOSGAME E2 / Ryzen5 3550H / 32GB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- k3s cluster summary -->
+      <div class="neon-card rounded-lg p-4">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-2.5 h-2.5 rounded-full pulse" style="background: var(--neon-purple); color: var(--neon-purple);"></div>
+          <span class="mono text-xs font-bold" style="color: var(--neon-purple);">k3s Cluster (master×1 + worker×6)</span>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+          <div class="text-center p-2 rounded" style="background: rgba(168,85,247,0.06); border: 1px solid rgba(168,85,247,0.15);">
+            <p class="mono text-lg font-bold" style="color: var(--neon-purple);">3</p>
+            <p class="text-xs text-slate-500">Proxmox Nodes</p>
+          </div>
+          <div class="text-center p-2 rounded" style="background: rgba(0,212,255,0.06); border: 1px solid rgba(0,212,255,0.15);">
+            <p class="mono text-lg font-bold" style="color: var(--neon-cyan);">7</p>
+            <p class="text-xs text-slate-500">k3s Nodes</p>
+          </div>
+          <div class="text-center p-2 rounded" style="background: rgba(0,255,136,0.06); border: 1px solid rgba(0,255,136,0.15);">
+            <p class="mono text-lg font-bold" style="color: var(--neon-green);">64GB</p>
+            <p class="text-xs text-slate-500">Total RAM</p>
+          </div>
+          <div class="text-center p-2 rounded" style="background: rgba(251,146,60,0.06); border: 1px solid rgba(251,146,60,0.15);">
+            <p class="mono text-lg font-bold" style="color: #fb923c)">15+</p>
+            <p class="text-xs text-slate-500">k8s Apps</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 構築フェーズ -->
+    <section class="fadeup">
+      <div class="section-header">
+        <span class="mono text-xs font-bold" style="color: var(--neon-cyan);">02</span>
+        <h2 class="font-bold text-base tracking-wide" style="color: var(--neon-cyan);">構築フェーズ</h2>
+      </div>
+      <p class="text-xs text-slate-500 mono mb-5">// IaC によるフル自動化 — 最小コマンド数で再現可能</p>
+
+      <div class="space-y-4">
+        <div class="phase-step">
+          <div class="phase-num" style="color: #fb923c; border-color: rgba(251,146,60,0.4); background: rgba(251,146,60,0.07);">1</div>
+          <div class="neon-card rounded-lg p-4 flex-1" style="border-color: rgba(251,146,60,0.15);">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-xs font-semibold" style="color: #fb923c;">Hardware Setup</span>
+              <span class="mono text-xs" style="color: #475569;">scripts/</span>
+            </div>
+            <p class="text-xs text-slate-400">Raspberry Pi OS セットアップ → Proxmox を各ノードに USB インストール → SSH 鍵配布</p>
+            <div class="mt-2 mono text-xs px-3 py-1.5 rounded" style="background: rgba(0,0,0,0.3); color: var(--neon-green);">$ bash raspi-setup.sh</div>
+          </div>
+        </div>
+
+        <div class="phase-step">
+          <div class="phase-num" style="color: #4ade80; border-color: rgba(74,222,128,0.4); background: rgba(74,222,128,0.07);">2</div>
+          <div class="neon-card rounded-lg p-4 flex-1" style="border-color: rgba(74,222,128,0.15);">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-xs font-semibold" style="color: #4ade80;">Proxmox Cluster (Ansible)</span>
+              <span class="mono text-xs" style="color: #475569;">ansible/</span>
+            </div>
+            <p class="text-xs text-slate-400">クラスター初期化・ネットワーク(VLAN)・ZFS・Corosync QDevice 設定を Playbook で自動適用</p>
+            <div class="mt-2 mono text-xs px-3 py-1.5 rounded" style="background: rgba(0,0,0,0.3); color: var(--neon-green);">$ ansible-playbook playbooks/site.yml</div>
+          </div>
+        </div>
+
+        <div class="phase-step">
+          <div class="phase-num" style="color: var(--neon-cyan); border-color: rgba(0,212,255,0.4); background: rgba(0,212,255,0.07);">3</div>
+          <div class="neon-card rounded-lg p-4 flex-1" style="border-color: rgba(0,212,255,0.15);">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-xs font-semibold" style="color: var(--neon-cyan);">VM Template (Packer)</span>
+              <span class="mono text-xs" style="color: #475569;">packer/</span>
+            </div>
+            <p class="text-xs text-slate-400">Ubuntu 24.04 VM テンプレート (ID: 9000) をビルド。cloud-init 対応済み。</p>
+            <div class="mt-2 mono text-xs px-3 py-1.5 rounded" style="background: rgba(0,0,0,0.3); color: var(--neon-green);">$ packer build ubuntu-2404.pkr.hcl</div>
+          </div>
+        </div>
+
+        <div class="phase-step">
+          <div class="phase-num" style="color: var(--neon-purple); border-color: rgba(168,85,247,0.4); background: rgba(168,85,247,0.07);">4</div>
+          <div class="neon-card rounded-lg p-4 flex-1" style="border-color: rgba(168,85,247,0.15);">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-xs font-semibold" style="color: var(--neon-purple);">VM Provisioning (Terraform)</span>
+              <span class="mono text-xs" style="color: #475569;">terraform/</span>
+            </div>
+            <p class="text-xs text-slate-400">VM 7台 + Pi-hole LXC を宣言的に作成。k3s クラスター構成まで自動化。</p>
+            <div class="mt-2 mono text-xs px-3 py-1.5 rounded" style="background: rgba(0,0,0,0.3); color: var(--neon-green);">$ terraform apply</div>
+          </div>
+        </div>
+
+        <div class="phase-step">
+          <div class="phase-num" style="color: #c084fc; border-color: rgba(192,132,252,0.4); background: rgba(192,132,252,0.07);">5</div>
+          <div class="neon-card rounded-lg p-4 flex-1" style="border-color: rgba(192,132,252,0.15);">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-xs font-semibold" style="color: #c084fc;">k8s Apps (ArgoCD GitOps)</span>
+              <span class="mono text-xs" style="color: #475569;">k8s/</span>
+            </div>
+            <p class="text-xs text-slate-400">ArgoCD をインストールし、Sync Wave 0→15 で全アプリを順次自動デプロイ。</p>
+            <div class="mt-2 mono text-xs px-3 py-1.5 rounded space-y-1" style="background: rgba(0,0,0,0.3); color: var(--neon-green);">
+              <div>$ bash k8s/argocd/install.sh</div>
+              <div>$ bash k8s/argocd/register-apps.sh</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- k8s アプリスタック -->
+    <section class="fadeup">
+      <div class="section-header">
+        <span class="mono text-xs font-bold" style="color: var(--neon-cyan);">03</span>
+        <h2 class="font-bold text-base tracking-wide" style="color: var(--neon-cyan);">k8s アプリスタック</h2>
+      </div>
+      <p class="text-xs text-slate-500 mono mb-5">// ArgoCD Sync Wave 順に自動デプロイ</p>
+
+      <div class="grid sm:grid-cols-2 gap-3">
+        <!-- GitOps / CI/CD -->
+        <div class="neon-card rounded-lg p-4" style="border-color: rgba(0,212,255,0.15);">
+          <h3 class="mono text-xs mb-3" style="color: var(--neon-cyan);">[ GitOps / CI/CD ]</h3>
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-slate-300 font-semibold">ArgoCD</span>
+              <span class="wave-badge" style="color: var(--neon-cyan); border-color: rgba(0,212,255,0.3); background: rgba(0,212,255,0.07);">Wave 0</span>
+            </div>
+            <p class="text-xs text-slate-500">GitHub → k3s 宣言的デプロイ。全アプリを GitOps で管理。</p>
+            <div class="border-t mt-2 pt-2" style="border-color: rgba(255,255,255,0.06);">
+              <div class="flex items-center justify-between">
+                <span class="text-sm text-slate-300 font-semibold">Harbor</span>
+                <span class="wave-badge" style="color: var(--neon-cyan); border-color: rgba(0,212,255,0.3); background: rgba(0,212,255,0.07);">Wave 5</span>
+              </div>
+              <p class="text-xs text-slate-500 mt-1">プライベートコンテナレジストリ + 脆弱性スキャン</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- オブザーバビリティ -->
+        <div class="neon-card rounded-lg p-4" style="border-color: rgba(192,132,252,0.15);">
+          <h3 class="mono text-xs mb-3" style="color: #c084fc;">[ オブザーバビリティ ]</h3>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="skill-badge" style="color: #c084fc; border-color: rgba(192,132,252,0.3); background: rgba(192,132,252,0.07); font-size: 0.65rem;">Prometheus</span>
+            <span class="skill-badge" style="color: #c084fc; border-color: rgba(192,132,252,0.3); background: rgba(192,132,252,0.07); font-size: 0.65rem;">Grafana</span>
+            <span class="skill-badge" style="color: #c084fc; border-color: rgba(192,132,252,0.3); background: rgba(192,132,252,0.07); font-size: 0.65rem;">Alertmanager</span>
+            <span class="skill-badge" style="color: #c084fc; border-color: rgba(192,132,252,0.3); background: rgba(192,132,252,0.07); font-size: 0.65rem;">Elasticsearch</span>
+            <span class="skill-badge" style="color: #c084fc; border-color: rgba(192,132,252,0.3); background: rgba(192,132,252,0.07); font-size: 0.65rem;">Fluent Bit</span>
+            <span class="skill-badge" style="color: #c084fc; border-color: rgba(192,132,252,0.3); background: rgba(192,132,252,0.07); font-size: 0.65rem;">Kibana</span>
+            <span class="skill-badge" style="color: #c084fc; border-color: rgba(192,132,252,0.3); background: rgba(192,132,252,0.07); font-size: 0.65rem;">Grafana Tempo</span>
+            <span class="skill-badge" style="color: #c084fc; border-color: rgba(192,132,252,0.3); background: rgba(192,132,252,0.07); font-size: 0.65rem;">OpenTelemetry</span>
+          </div>
+          <p class="text-xs text-slate-500 mt-2">Grafana 1本にメトリクス・ログ・トレースを統合</p>
+        </div>
+
+        <!-- セキュリティ / ポリシー -->
+        <div class="neon-card rounded-lg p-4" style="border-color: rgba(251,146,60,0.15);">
+          <h3 class="mono text-xs mb-3" style="color: #fb923c;">[ セキュリティ / ポリシー ]</h3>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="skill-badge" style="color: #fb923c; border-color: rgba(251,146,60,0.3); background: rgba(251,146,60,0.07); font-size: 0.65rem;">HashiCorp Vault</span>
+            <span class="skill-badge" style="color: #fb923c; border-color: rgba(251,146,60,0.3); background: rgba(251,146,60,0.07); font-size: 0.65rem;">Keycloak (SSO)</span>
+            <span class="skill-badge" style="color: #fb923c; border-color: rgba(251,146,60,0.3); background: rgba(251,146,60,0.07); font-size: 0.65rem;">Kyverno</span>
+            <span class="skill-badge" style="color: #fb923c; border-color: rgba(251,146,60,0.3); background: rgba(251,146,60,0.07); font-size: 0.65rem;">cert-manager</span>
+          </div>
+          <p class="text-xs text-slate-500 mt-2">Keycloak で ArgoCD・Grafana・Harbor の SSO を統一</p>
+        </div>
+
+        <!-- ストレージ / バックアップ -->
+        <div class="neon-card rounded-lg p-4" style="border-color: rgba(74,222,128,0.15);">
+          <h3 class="mono text-xs mb-3" style="color: #4ade80;">[ ストレージ / バックアップ ]</h3>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="skill-badge" style="color: #4ade80; border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.07); font-size: 0.65rem;">Longhorn</span>
+            <span class="skill-badge" style="color: #4ade80; border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.07); font-size: 0.65rem;">MinIO (S3)</span>
+            <span class="skill-badge" style="color: #4ade80; border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.07); font-size: 0.65rem;">Velero</span>
+            <span class="skill-badge" style="color: #4ade80; border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.07); font-size: 0.65rem;">ZFS Replication</span>
+          </div>
+          <p class="text-xs text-slate-500 mt-2">Velero で毎日 02:00 JST に自動バックアップ (7日間保持)</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- AIOps -->
+    <section class="fadeup">
+      <div class="section-header">
+        <span class="mono text-xs font-bold" style="color: var(--neon-cyan);">04</span>
+        <h2 class="font-bold text-base tracking-wide" style="color: var(--neon-cyan);">AIOps</h2>
+      </div>
+      <p class="text-xs text-slate-500 mono mb-5">// 監視・ログスタックを活用し IT 運用を AI で知能化</p>
+
+      <div class="grid sm:grid-cols-2 gap-4">
+        <!-- Alerting -->
+        <div class="aiops-card">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="w-2 h-2 rounded-full" style="background: var(--neon-purple); box-shadow: 0 0 6px var(--neon-purple);"></span>
+            <h3 class="text-sm font-semibold" style="color: var(--neon-purple);">予測型アラート</h3>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            <code class="mono" style="color: #a78bfa;">predict_linear()</code> でディスク・メモリ枯渇を事前検知。
+            CPU スパイク・Pod 再起動率のトレンドアラートも実装。
+            AltertManager の <code class="mono" style="color: #a78bfa;">inhibit_rules</code> でノイズを抑制。
+          </p>
+        </div>
+
+        <!-- Anomaly Detection -->
+        <div class="aiops-card">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="w-2 h-2 rounded-full" style="background: var(--neon-cyan); box-shadow: 0 0 6px var(--neon-cyan);"></span>
+            <h3 class="text-sm font-semibold" style="color: var(--neon-cyan);">ログ異常検知</h3>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            ADTK (Python) による統計的異常検知を CronJob で定期実行。
+            検知結果を Prometheus Pushgateway 経由で Grafana ダッシュボードに可視化。
+          </p>
+        </div>
+
+        <!-- LLM Alert Summarizer -->
+        <div class="aiops-card" style="border-color: rgba(0,212,255,0.3); background: linear-gradient(135deg, rgba(0,212,255,0.08), rgba(168,85,247,0.05));">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="w-2 h-2 rounded-full" style="background: var(--neon-cyan); box-shadow: 0 0 6px var(--neon-cyan);"></span>
+            <h3 class="text-sm font-semibold" style="color: var(--neon-cyan);">LLM アラートサマリ</h3>
+            <span class="mono text-xs px-1.5 py-0.5 rounded" style="color: var(--neon-cyan); background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.3);">Claude API</span>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            AlertManager からアラートを受信し Claude API (claude-haiku) で人間可読なサマリを生成。
+            結果を Grafana アノテーションとして可視化し、障害対応の初動を高速化。
+          </p>
+        </div>
+
+        <!-- Auto Remediation -->
+        <div class="aiops-card">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="w-2 h-2 rounded-full" style="background: var(--neon-green); box-shadow: 0 0 6px var(--neon-green);"></span>
+            <h3 class="text-sm font-semibold" style="color: var(--neon-green);">自動修復 (Runbook)</h3>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Argo Events でアラートをトリガーに Argo Workflows を起動。
+            Pod 再起動・スケールアウト等の修復アクションを自動実行する Runbook を整備。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- MCP Server -->
+    <section class="fadeup">
+      <div class="section-header">
+        <span class="mono text-xs font-bold" style="color: var(--neon-cyan);">05</span>
+        <h2 class="font-bold text-base tracking-wide" style="color: var(--neon-cyan);">MCP Server (proxmox-lab-mcp)</h2>
+      </div>
+
+      <div class="neon-card rounded-lg p-5 mb-4" style="border-color: rgba(0,212,255,0.2); background: linear-gradient(135deg, rgba(0,212,255,0.04), rgba(168,85,247,0.04));">
+        <p class="text-sm text-slate-400 leading-relaxed mb-4">
+          Raspberry Pi 5 上で稼働するホームラボ専用 MCP サーバー。
+          Claude Code から HTTP/SSE で接続し、自然言語でインフラ操作・調査が可能。
+        </p>
+        <!-- Architecture -->
+        <div class="mono text-xs p-4 rounded-lg mb-4" style="background: rgba(0,0,0,0.4); color: #94a3b8; line-height: 2;">
+          <div style="color: var(--neon-cyan);">Claude Code (Windows)</div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;HTTP/SSE</div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;▼</div>
+          <div style="color: var(--neon-green);">Raspberry Pi 5 ← MCP Server</div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;├── proxmoxer&nbsp;&nbsp;→ Proxmox API</div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;├── terraform CLI</div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;├── ansible CLI</div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;├── kubectl</div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;└── ArgoCD REST API</div>
+        </div>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div class="neon-card rounded-lg p-3">
+          <h4 class="mono text-xs mb-2" style="color: var(--neon-cyan);">[ Proxmox ]</h4>
+          <p class="text-xs text-slate-400">ノード/VM 状態確認・起動停止・スナップショット・クラスター健全性</p>
+        </div>
+        <div class="neon-card rounded-lg p-3">
+          <h4 class="mono text-xs mb-2" style="color: var(--neon-green);">[ Terraform / Ansible ]</h4>
+          <p class="text-xs text-slate-400">plan・apply・playbook 実行。破壊的操作は confirm 必須の安全設計。</p>
+        </div>
+        <div class="neon-card rounded-lg p-3">
+          <h4 class="mono text-xs mb-2" style="color: var(--neon-purple);">[ kubectl / Helm ]</h4>
+          <p class="text-xs text-slate-400">Pod ログ・イベント確認・apply・ロールアウト管理・Helm アップグレード</p>
+        </div>
+        <div class="neon-card rounded-lg p-3">
+          <h4 class="mono text-xs mb-2" style="color: #c084fc;">[ ArgoCD ]</h4>
+          <p class="text-xs text-slate-400">全アプリの sync/health 確認・sync 実行・hard refresh</p>
+        </div>
+        <div class="neon-card rounded-lg p-3">
+          <h4 class="mono text-xs mb-2" style="color: #fb923c;">[ Lab Utility ]</h4>
+          <p class="text-xs text-slate-400">Wake-on-LAN・SSH 実行・ポート確認・クラスター全体健全性サマリー</p>
+        </div>
+        <div class="neon-card rounded-lg p-3" style="border-color: rgba(0,212,255,0.2);">
+          <h4 class="mono text-xs mb-2" style="color: var(--neon-cyan);">[ 登録コマンド ]</h4>
+          <div class="mono text-xs px-2 py-1.5 rounded" style="background: rgba(0,0,0,0.4); color: var(--neon-green); font-size: 0.65rem;">claude mcp add --transport sse proxmox-lab http://&lt;pi-ip&gt;:8000/sse</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 使用技術まとめ -->
+    <section class="fadeup">
+      <div class="section-header">
+        <span class="mono text-xs font-bold" style="color: var(--neon-cyan);">06</span>
+        <h2 class="font-bold text-base tracking-wide" style="color: var(--neon-cyan);">使用技術</h2>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+        <span class="skill-badge justify-center" style="color: #fb923c; border-color: rgba(251,146,60,0.3); background: rgba(251,146,60,0.07);">Proxmox VE 8.x</span>
+        <span class="skill-badge justify-center" style="color: #4ade80; border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.07);">Ansible</span>
+        <span class="skill-badge justify-center" style="color: #4ade80; border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.07);">Terraform</span>
+        <span class="skill-badge justify-center" style="color: #4ade80; border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.07);">Packer</span>
+        <span class="skill-badge justify-center" style="color: var(--neon-cyan); border-color: rgba(0,212,255,0.3); background: rgba(0,212,255,0.07);">k3s</span>
+        <span class="skill-badge justify-center" style="color: var(--neon-cyan); border-color: rgba(0,212,255,0.3); background: rgba(0,212,255,0.07);">ArgoCD</span>
+        <span class="skill-badge justify-center" style="color: var(--neon-cyan); border-color: rgba(0,212,255,0.3); background: rgba(0,212,255,0.07);">Helm</span>
+        <span class="skill-badge justify-center" style="color: var(--neon-cyan); border-color: rgba(0,212,255,0.3); background: rgba(0,212,255,0.07);">Kyverno</span>
+        <span class="skill-badge justify-center" style="color: #c084fc; border-color: rgba(192,132,252,0.3); background: rgba(192,132,252,0.07);">Prometheus</span>
+        <span class="skill-badge justify-center" style="color: #c084fc; border-color: rgba(192,132,252,0.3); background: rgba(192,132,252,0.07);">Grafana</span>
+        <span class="skill-badge justify-center" style="color: #c084fc; border-color: rgba(192,132,252,0.3); background: rgba(192,132,252,0.07);">Elasticsearch</span>
+        <span class="skill-badge justify-center" style="color: #c084fc; border-color: rgba(192,132,252,0.3); background: rgba(192,132,252,0.07);">Grafana Tempo</span>
+        <span class="skill-badge justify-center" style="color: #fb923c; border-color: rgba(251,146,60,0.3); background: rgba(251,146,60,0.07);">Vault</span>
+        <span class="skill-badge justify-center" style="color: #fb923c; border-color: rgba(251,146,60,0.3); background: rgba(251,146,60,0.07);">Keycloak</span>
+        <span class="skill-badge justify-center" style="color: #fb923c; border-color: rgba(251,146,60,0.3); background: rgba(251,146,60,0.07);">Harbor</span>
+        <span class="skill-badge justify-center" style="color: #4ade80; border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.07);">Longhorn</span>
+        <span class="skill-badge justify-center" style="color: #4ade80; border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.07);">MinIO</span>
+        <span class="skill-badge justify-center" style="color: #4ade80; border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.07);">Velero</span>
+        <span class="skill-badge justify-center" style="color: var(--neon-purple); border-color: rgba(168,85,247,0.3); background: rgba(168,85,247,0.07);">Argo Workflows</span>
+        <span class="skill-badge justify-center" style="color: var(--neon-purple); border-color: rgba(168,85,247,0.3); background: rgba(168,85,247,0.07);">Argo Events</span>
+        <span class="skill-badge justify-center" style="color: var(--neon-cyan); border-color: rgba(0,212,255,0.3); background: rgba(0,212,255,0.07);">Claude API</span>
+        <span class="skill-badge justify-center" style="color: var(--neon-cyan); border-color: rgba(0,212,255,0.3); background: rgba(0,212,255,0.07);">MCP Server</span>
+        <span class="skill-badge justify-center" style="color: #60a5fa; border-color: rgba(96,165,250,0.3); background: rgba(96,165,250,0.07);">ZFS</span>
+        <span class="skill-badge justify-center" style="color: #60a5fa; border-color: rgba(96,165,250,0.3); background: rgba(96,165,250,0.07);">Playwright</span>
+      </div>
+    </section>
+
+    <div class="text-center fadeup">
+      <a href="index.html" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-sm transition-all duration-300 hover:scale-105" style="background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.25); color: var(--neon-cyan);">
+        <span class="mono">←</span> Portfolio に戻る
+      </a>
+    </div>
+
+    <footer class="text-center py-4" style="border-top: 1px solid rgba(0,212,255,0.08);">
+      <p class="mono text-xs" style="color: #334155;">&copy; 2025 Yuto Fukui - All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script>
+    const items = document.querySelectorAll('.fadeup');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('show'); });
+    }, { threshold: 0.08 });
+    items.forEach(el => observer.observe(el));
+  </script>
+</body>
+
+</html>

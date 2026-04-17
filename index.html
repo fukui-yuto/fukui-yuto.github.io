@@ -9,464 +9,656 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
+    :root {
+      --neon-cyan: #00d4ff;
+      --neon-green: #00ff88;
+      --neon-purple: #a855f7;
+      --dark-bg: #080c18;
+      --dark-card: #0d1225;
+      --dark-card2: #111827;
+    }
+
+    * { box-sizing: border-box; }
+
     body {
       font-family: 'Inter', sans-serif;
+      background-color: var(--dark-bg);
+      color: #e2e8f0;
     }
 
-    html {
-      scroll-behavior: smooth;
+    .mono { font-family: 'JetBrains Mono', monospace; }
+
+    html { scroll-behavior: smooth; }
+
+    /* Animated grid background */
+    .grid-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background-image:
+        linear-gradient(rgba(0, 212, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 212, 255, 0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
     }
 
-    /* ===== スクロールアニメーション ===== */
+    /* Glitch animation */
+    @keyframes glitch-1 {
+      0%, 85%, 100% { clip-path: none; transform: none; opacity: 1; }
+      87% { clip-path: polygon(0 10%, 100% 10%, 100% 35%, 0 35%); transform: translate(-3px, 0); opacity: 0.8; }
+      89% { clip-path: polygon(0 55%, 100% 55%, 100% 75%, 0 75%); transform: translate(3px, 0); opacity: 0.8; }
+      91% { clip-path: none; transform: none; opacity: 1; }
+    }
+
+    .glitch {
+      animation: glitch-1 6s infinite;
+    }
+
+    /* Typing cursor blink */
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .cursor::after {
+      content: '_';
+      animation: blink 1s infinite;
+      color: var(--neon-cyan);
+    }
+
+    /* Fade in up */
     .fadeup {
       opacity: 0;
-      transform: translateY(40px);
+      transform: translateY(24px);
       transition: opacity 700ms ease, transform 700ms ease;
     }
-
     .fadeup.show {
       opacity: 1;
       transform: translateY(0);
     }
 
-    details summary {
-      cursor: pointer;
+    /* Neon border card */
+    .neon-card {
+      background: var(--dark-card);
+      border: 1px solid rgba(0, 212, 255, 0.15);
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+    }
+    .neon-card:hover {
+      border-color: rgba(0, 212, 255, 0.45);
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.1);
+      transform: translateY(-2px);
     }
 
-    details[open] summary {
-      margin-bottom: 0.5rem;
+    /* Section header line */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .section-header::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, rgba(0, 212, 255, 0.5), transparent);
     }
 
-    details summary::marker {
-      color: #2563eb;
+    /* Nav link */
+    .nav-link {
+      position: relative;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      color: #94a3b8;
+      transition: color 0.2s;
+      text-decoration: none;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--neon-cyan);
+      transition: width 0.25s;
+    }
+    .nav-link:hover { color: var(--neon-cyan); }
+    .nav-link:hover::after { width: 100%; }
+
+    /* Skill badge */
+    .skill-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 10px;
+      border-radius: 3px;
+      font-size: 0.72rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      border: 1px solid;
+      transition: all 0.2s;
+      cursor: default;
+    }
+    .skill-badge:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.2);
+    }
+
+    /* Timeline dot */
+    .tl-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      position: absolute;
+      left: -21px;
+      top: 5px;
+    }
+
+    /* Achievement card */
+    .ach-card {
+      background: var(--dark-card);
+      border-left: 2px solid;
+      transition: all 0.25s;
+    }
+    .ach-card:hover { transform: translateX(3px); }
+
+    details summary { cursor: pointer; list-style: none; }
+    details summary::-webkit-details-marker { display: none; }
+
+    /* Pulsing dot */
+    @keyframes pulse-dot {
+      0%, 100% { box-shadow: 0 0 4px currentColor; }
+      50% { box-shadow: 0 0 12px currentColor, 0 0 20px currentColor; }
+    }
+    .pulse { animation: pulse-dot 2s ease-in-out infinite; }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--dark-bg); }
+    ::-webkit-scrollbar-thumb { background: rgba(0, 212, 255, 0.25); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(0, 212, 255, 0.5); }
+
+    /* Hero gradient overlay */
+    .hero-glow {
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 0%, rgba(0, 212, 255, 0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 80% 20%, rgba(168, 85, 247, 0.05) 0%, transparent 60%);
+    }
+
+    /* Typewriter */
+    @keyframes typewriter {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+    .typewriter-wrap {
+      overflow: hidden;
+      display: inline-block;
+    }
+    .typewriter {
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      animation: typewriter 1.8s steps(22, end) 0.8s both;
+    }
+    .type-cursor {
+      display: inline-block;
+      animation: blink 0.85s step-end infinite;
+      color: var(--neon-cyan);
+      margin-left: 2px;
+    }
+
+    /* Scan line effect on hero */
+    @keyframes scan {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(100vh); }
+    }
+    .scanline {
+      position: absolute;
+      left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(to bottom, transparent, rgba(0, 212, 255, 0.06), transparent);
+      animation: scan 6s linear infinite;
+      pointer-events: none;
     }
   </style>
 </head>
 
-<body class="bg-gradient-to-br from-blue-50 to-white text-gray-900">
+<body>
+  <!-- Grid background -->
+  <div class="grid-bg"></div>
 
-  <!-- ===== ナビゲーション ===== -->
-  <header class="fixed top-0 inset-x-0 z-50 bg-white/80 backdrop-blur border-b border-blue-100">
-    <nav class="max-w-4xl mx-auto px-6 h-14 flex items-center justify-between">
-      <span class="font-semibold text-blue-600">Yuto Fukui</span>
-      <ul class="flex space-x-4 text-sm font-medium text-gray-600">
-        <li><a href="#work" class="hover:text-blue-600">業務</a></li>
-        <li><a href="#skills" class="hover:text-blue-600">スキル</a></li>
-        <li><a href="#certs" class="hover:text-blue-600">資格</a></li>
-        <li><a href="#achievements" class="hover:text-blue-600">実績</a></li>
+  <!-- Navigation -->
+  <header class="fixed top-0 inset-x-0 z-50" style="background: rgba(8, 12, 24, 0.9); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(0, 212, 255, 0.08);">
+    <nav class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
+      <span class="mono font-bold text-sm" style="color: var(--neon-cyan);">
+        <span style="color: #334155;">&gt;&nbsp;</span>fukui-yuto<span class="type-cursor">_</span>
+      </span>
+      <ul class="flex space-x-6">
+        <li><a href="#work" class="nav-link">01.業務</a></li>
+        <li><a href="#skills" class="nav-link">02.スキル</a></li>
+        <li><a href="#certs" class="nav-link">03.資格</a></li>
+        <li><a href="#achievements" class="nav-link">04.実績</a></li>
+        <li><a href="homelab.html" class="nav-link">Lab</a></li>
       </ul>
     </nav>
   </header>
 
   <div class="h-14"></div>
 
-  <div class="max-w-4xl mx-auto px-6 py-12">
-    <div class="bg-white shadow-xl rounded-3xl p-10 border border-blue-100">
+  <!-- Hero -->
+  <section class="hero-glow relative overflow-hidden py-28 px-6">
+    <div class="scanline"></div>
+    <canvas id="particles-canvas" class="absolute inset-0 pointer-events-none"></canvas>
+    <div class="max-w-5xl mx-auto relative z-10 fadeup">
+      <div class="mono text-sm mb-3" style="color: #334155;">
+        <span style="color: var(--neon-green);">$</span>&nbsp;whoami
+      </div>
+      <h1 class="glitch text-7xl md:text-9xl font-bold mono tracking-tight mb-4" style="color: #f1f5f9;">
+        Yuto Fukui
+      </h1>
+      <div class="mb-8">
+        <span class="typewriter-wrap">
+          <span class="typewriter mono text-xl md:text-2xl font-semibold" style="color: var(--neon-cyan);">クラウド仮想化基盤エンジニア</span>
+        </span><span class="type-cursor mono text-xl" style="animation-delay: 2.6s;">_</span>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <span class="skill-badge" style="color: var(--neon-cyan); border-color: rgba(0,212,255,0.35); background: rgba(0,212,255,0.06);"># Infrastructure</span>
+        <span class="skill-badge" style="color: var(--neon-green); border-color: rgba(0,255,136,0.35); background: rgba(0,255,136,0.06);"># Automation</span>
+        <span class="skill-badge" style="color: var(--neon-purple); border-color: rgba(168,85,247,0.35); background: rgba(168,85,247,0.06);"># Cloud</span>
+      </div>
+    </div>
+  </section>
 
-      <!-- プロフィール -->
-      <div class="fadeup">
-        <div class="bg-gradient-to-r from-blue-600 to-cyan-500 rounded-2xl p-8 text-white shadow-lg">
-          <div class="flex flex-col items-center text-center">
-            <h1 class="text-5xl font-bold mb-3">Yuto Fukui</h1>
-            <p class="text-lg font-semibold text-blue-100 mb-2">クラウド仮想化基盤エンジニア</p>
-            <div class="flex flex-wrap gap-2 justify-center mt-4">
-              <span
-                class="bg-white bg-opacity-20 backdrop-blur px-3 py-1 rounded-full text-sm font-medium">Infrastructure</span>
-              <span
-                class="bg-white bg-opacity-20 backdrop-blur px-3 py-1 rounded-full text-sm font-medium">Automation</span>
-              <span class="bg-white bg-opacity-20 backdrop-blur px-3 py-1 rounded-full text-sm font-medium">Cloud</span>
+  <div class="max-w-5xl mx-auto px-6 pb-20 space-y-20">
+
+    <!-- 現在の業務 -->
+    <section id="work" class="fadeup">
+      <div class="section-header">
+        <span class="mono text-xs font-bold" style="color: var(--neon-cyan);">01</span>
+        <h2 class="font-bold text-base tracking-wide" style="color: var(--neon-cyan);">現在の業務</h2>
+      </div>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="neon-card rounded-lg p-5">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-2.5 h-2.5 rounded-full pulse" style="background: var(--neon-cyan); color: var(--neon-cyan);"></div>
+            <h3 class="font-semibold text-sm" style="color: var(--neon-cyan);">設計・構築・運用</h3>
+          </div>
+          <ul class="space-y-2.5">
+            <li class="flex gap-2 text-sm text-slate-400 leading-relaxed"><span class="flex-shrink-0 mt-0.5" style="color: var(--neon-cyan);">›</span><span>仮想化基盤の設計・構築・運用および運用自動化の開発を担当</span></li>
+            <li class="flex gap-2 text-sm text-slate-400 leading-relaxed"><span class="flex-shrink-0 mt-0.5" style="color: var(--neon-cyan);">›</span><span>日々の監視・保守・改善対応、24/365障害対応・原因調査・復旧対応まで一貫して実施し、信頼性の高いインフラを維持</span></li>
+          </ul>
+        </div>
+        <div class="neon-card rounded-lg p-5" style="border-color: rgba(0,255,136,0.15);">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-2.5 h-2.5 rounded-full pulse" style="background: var(--neon-green); color: var(--neon-green); animation-delay: 0.5s;"></div>
+            <h3 class="font-semibold text-sm" style="color: var(--neon-green);">チームリーダーシップ</h3>
+          </div>
+          <ul class="space-y-2.5">
+            <li class="flex gap-2 text-sm text-slate-400 leading-relaxed"><span class="flex-shrink-0 mt-0.5" style="color: var(--neon-green);">›</span><span>技術面および運用方針の両面からチームを支援（構築計画・タスク管理・品質管理）</span></li>
+            <li class="flex gap-2 text-sm text-slate-400 leading-relaxed"><span class="flex-shrink-0 mt-0.5" style="color: var(--neon-green);">›</span><span>メンバー育成や障害発生時の技術判断・指揮を行い、迅速な復旧をリード</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- スキル -->
+    <section id="skills" class="fadeup">
+      <div class="section-header">
+        <span class="mono text-xs font-bold" style="color: var(--neon-cyan);">02</span>
+        <h2 class="font-bold text-base tracking-wide" style="color: var(--neon-cyan);">スキル</h2>
+      </div>
+
+      <div class="mb-6">
+        <h3 class="mono text-xs mb-3 flex items-center gap-2" style="color: #475569;">
+          <span style="color: var(--neon-green);">//</span> Programming &amp; Markup
+        </h3>
+        <div class="flex flex-wrap gap-2">
+          <span class="skill-badge" style="color: #60a5fa; border-color: rgba(96,165,250,0.3); background: rgba(96,165,250,0.07);">C / C++</span>
+          <span class="skill-badge" style="color: #f87171; border-color: rgba(248,113,113,0.3); background: rgba(248,113,113,0.07);">HTML / CSS</span>
+          <span class="skill-badge" style="color: #fb923c; border-color: rgba(251,146,60,0.3); background: rgba(251,146,60,0.07);">Java</span>
+          <span class="skill-badge" style="color: #facc15; border-color: rgba(250,204,21,0.3); background: rgba(250,204,21,0.07);">JavaScript</span>
+          <span class="skill-badge" style="color: #4ade80; border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.07);">Perl</span>
+          <span class="skill-badge" style="color: var(--neon-cyan); border-color: rgba(0,212,255,0.3); background: rgba(0,212,255,0.07);">Python</span>
+          <span class="skill-badge" style="color: #818cf8; border-color: rgba(129,140,248,0.3); background: rgba(129,140,248,0.07);">PowerShell</span>
+          <span class="skill-badge" style="color: #c084fc; border-color: rgba(192,132,252,0.3); background: rgba(192,132,252,0.07);">Shell Script</span>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="mono text-xs mb-3 flex items-center gap-2" style="color: #475569;">
+          <span style="color: var(--neon-green);">//</span> インフラ系
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="neon-card rounded-lg p-3">
+            <h4 class="mono text-xs mb-2.5" style="color: var(--neon-cyan);">[ サーバー基盤 ]</h4>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="skill-badge" style="color: #60a5fa; border-color: rgba(96,165,250,0.3); background: rgba(96,165,250,0.07);">Linux</span>
+              <span class="skill-badge" style="color: #60a5fa; border-color: rgba(96,165,250,0.3); background: rgba(96,165,250,0.07);">Windows</span>
+            </div>
+          </div>
+          <div class="neon-card rounded-lg p-3">
+            <h4 class="mono text-xs mb-2.5" style="color: var(--neon-cyan);">[ 仮想化 ]</h4>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="skill-badge" style="color: #60a5fa; border-color: rgba(96,165,250,0.3); background: rgba(96,165,250,0.07);">vCenter</span>
+              <span class="skill-badge" style="color: #60a5fa; border-color: rgba(96,165,250,0.3); background: rgba(96,165,250,0.07);">ESXi</span>
+              <span class="skill-badge" style="color: #60a5fa; border-color: rgba(96,165,250,0.3); background: rgba(96,165,250,0.07);">UsageMeter</span>
+            </div>
+          </div>
+          <div class="neon-card rounded-lg p-3" style="border-color: rgba(0,255,136,0.15);">
+            <h4 class="mono text-xs mb-2.5" style="color: var(--neon-green);">[ 自動化 ]</h4>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="skill-badge" style="color: #4ade80; border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.07);">Ansible</span>
+              <span class="skill-badge" style="color: #4ade80; border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.07);">Terraform</span>
+              <span class="skill-badge" style="color: #4ade80; border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.07);">Jenkins</span>
+            </div>
+          </div>
+          <div class="neon-card rounded-lg p-3" style="border-color: rgba(168,85,247,0.15);">
+            <h4 class="mono text-xs mb-2.5" style="color: var(--neon-purple);">[ 監視・分析 ]</h4>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="skill-badge" style="color: #c084fc; border-color: rgba(192,132,252,0.3); background: rgba(192,132,252,0.07);">Zabbix</span>
+              <span class="skill-badge" style="color: #c084fc; border-color: rgba(192,132,252,0.3); background: rgba(192,132,252,0.07);">Elastic Search</span>
+              <span class="skill-badge" style="color: #c084fc; border-color: rgba(192,132,252,0.3); background: rgba(192,132,252,0.07);">Grafana</span>
+            </div>
+          </div>
+          <div class="neon-card rounded-lg p-3 sm:col-span-2" style="border-color: rgba(251,146,60,0.15);">
+            <h4 class="mono text-xs mb-2.5" style="color: #fb923c;">[ その他インフラ ]</h4>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="skill-badge" style="color: #fb923c; border-color: rgba(251,146,60,0.3); background: rgba(251,146,60,0.07);">Docker</span>
+              <span class="skill-badge" style="color: #fb923c; border-color: rgba(251,146,60,0.3); background: rgba(251,146,60,0.07);">Active Directory</span>
+              <span class="skill-badge" style="color: #fb923c; border-color: rgba(251,146,60,0.3); background: rgba(251,146,60,0.07);">ArgoCD</span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- 現在の業務 -->
-      <section id="work" class="mt-10 fadeup">
-        <h2 class="text-xl font-semibold text-blue-600 mb-4">💼 現在の業務</h2>
-        <ul class="space-y-4">
-          <li class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border border-blue-300 shadow-md">
-            <div class="flex items-start">
-              <span class="text-2xl mr-3">⚙️</span>
+      <!-- AI -->
+      <div class="mt-6">
+        <h3 class="mono text-xs mb-3 flex items-center gap-2" style="color: #475569;">
+          <span style="color: var(--neon-green);">//</span> AI
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="neon-card rounded-lg p-3 sm:col-span-2" style="border-color: rgba(0,212,255,0.2); background: linear-gradient(135deg, rgba(0,212,255,0.04), rgba(168,85,247,0.04));">
+            <h4 class="mono text-xs mb-2.5" style="color: var(--neon-cyan);">[ AI Tools &amp; Infra ]</h4>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="skill-badge" style="color: var(--neon-cyan); border-color: rgba(0,212,255,0.4); background: rgba(0,212,255,0.08);">Claude Code</span>
+              <span class="skill-badge" style="color: var(--neon-cyan); border-color: rgba(0,212,255,0.4); background: rgba(0,212,255,0.08);">MCP Server</span>
+              <span class="skill-badge" style="color: var(--neon-purple); border-color: rgba(168,85,247,0.4); background: rgba(168,85,247,0.08);">GitHub Copilot</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 資格 -->
+    <section id="certs" class="fadeup">
+      <div class="section-header">
+        <span class="mono text-xs font-bold" style="color: var(--neon-cyan);">03</span>
+        <h2 class="font-bold text-base tracking-wide" style="color: var(--neon-cyan);">資格</h2>
+      </div>
+
+      <div class="space-y-5 pl-6">
+        <!-- 2016 -->
+        <div class="relative border-l pl-5 py-0.5" style="border-color: rgba(251,146,60,0.35);">
+          <div class="tl-dot" style="background: #fb923c; box-shadow: 0 0 8px #fb923c;"></div>
+          <p class="mono text-xs font-bold mb-2" style="color: #fb923c;">2016</p>
+          <div class="rounded-lg p-3" style="background: rgba(251,146,60,0.05); border: 1px solid rgba(251,146,60,0.2);">
+            <p class="text-sm text-slate-300">基本情報技術者試験 <span class="mono text-xs" style="color: #475569;">(2016/5)</span></p>
+          </div>
+        </div>
+
+        <!-- 2022 -->
+        <div class="relative border-l pl-5 py-0.5" style="border-color: rgba(74,222,128,0.35);">
+          <div class="tl-dot" style="background: #4ade80; box-shadow: 0 0 8px #4ade80;"></div>
+          <p class="mono text-xs font-bold mb-2" style="color: #4ade80;">2022</p>
+          <div class="rounded-lg p-3" style="background: rgba(74,222,128,0.05); border: 1px solid rgba(74,222,128,0.2);">
+            <p class="text-sm text-slate-300">VMware Certified Professional – DCV <span class="mono text-xs" style="color: #475569;">(2022/3)</span></p>
+          </div>
+        </div>
+
+        <!-- 2023 -->
+        <div class="relative border-l pl-5 py-0.5" style="border-color: rgba(96,165,250,0.35);">
+          <div class="tl-dot" style="background: #60a5fa; box-shadow: 0 0 8px #60a5fa;"></div>
+          <p class="mono text-xs font-bold mb-2" style="color: #60a5fa;">2023</p>
+          <div class="rounded-lg p-3 space-y-1.5" style="background: rgba(96,165,250,0.05); border: 1px solid rgba(96,165,250,0.2);">
+            <p class="text-sm text-slate-300">AWS Certified Cloud Practitioner <span class="mono text-xs" style="color: #475569;">(2023/10)</span></p>
+            <p class="text-sm text-slate-300">Fujitsu Certified Professional Cloud <span class="mono text-xs" style="color: #475569;">(2023/11)</span></p>
+            <p class="text-sm text-slate-300">Microsoft Azure Fundamentals <span class="mono text-xs" style="color: #475569;">(2023/11)</span></p>
+          </div>
+        </div>
+
+        <!-- 2024 -->
+        <div class="relative border-l pl-5 py-0.5" style="border-color: rgba(0,212,255,0.35);">
+          <div class="tl-dot" style="background: var(--neon-cyan); box-shadow: 0 0 8px var(--neon-cyan);"></div>
+          <p class="mono text-xs font-bold mb-2" style="color: var(--neon-cyan);">2024</p>
+          <div class="rounded-lg p-3 space-y-1.5" style="background: rgba(0,212,255,0.05); border: 1px solid rgba(0,212,255,0.2);">
+            <p class="text-sm text-slate-300">Microsoft Azure Administrator <span class="mono text-xs" style="color: #475569;">(2024/5)</span> <span class="mono text-xs px-1.5 py-0.5 rounded" style="color: #475569; background: rgba(71,85,105,0.15); border: 1px solid rgba(71,85,105,0.3);">expired</span></p>
+            <p class="text-sm text-slate-300">AWS Certified Solutions Architect <span class="mono text-xs" style="color: #475569;">(2024/7)</span></p>
+            <p class="text-sm text-slate-300">LPIC-1 101/102 <span class="mono text-xs" style="color: #475569;">(2024/9)</span></p>
+          </div>
+        </div>
+
+        <!-- 2026 -->
+        <div class="relative border-l pl-5 py-0.5" style="border-color: rgba(192,132,252,0.35);">
+          <div class="tl-dot" style="background: #c084fc; box-shadow: 0 0 8px #c084fc;"></div>
+          <p class="mono text-xs font-bold mb-2" style="color: #c084fc;">2026</p>
+          <div class="rounded-lg p-3 space-y-1.5" style="background: rgba(192,132,252,0.05); border: 1px solid rgba(192,132,252,0.2);">
+            <p class="text-sm text-slate-300">LPIC-2 201/202 <span class="mono text-xs" style="color: #475569;">(2026/2)</span></p>
+            <p class="text-sm text-slate-300">LPIC-3 305 <span class="mono text-xs" style="color: #475569;">(2026/2)</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 実績 -->
+    <section id="achievements" class="fadeup">
+      <div class="section-header">
+        <span class="mono text-xs font-bold" style="color: var(--neon-cyan);">04</span>
+        <h2 class="font-bold text-base tracking-wide" style="color: var(--neon-cyan);">実績</h2>
+      </div>
+
+      <div class="space-y-3">
+        <!-- 2021 -->
+        <details class="ach-card rounded-lg overflow-hidden" style="border-color: #60a5fa;" open>
+          <summary class="p-5 flex items-center justify-between hover:bg-white/5 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="mono text-sm font-bold flex-shrink-0 w-12" style="color: #60a5fa;">2021</span>
               <div>
-                <h3 class="font-semibold text-blue-700 mb-2">設計・構築・運用</h3>
-                <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
-                  <li>仮想化基盤の設計・構築・運用および運用自動化の開発を担当</li>
-                  <li>日々の監視・保守・改善対応、24/365障害対応・原因調査・復旧対応まで一貫して実施し、信頼性の高いインフラを維持</li>
-                </ul>
+                <p class="font-semibold text-slate-200 text-sm">ESXi運用の属人性を排除し、業務の見える化・自動化を推進</p>
+                <p class="mono text-xs mt-1" style="color: #475569;">属人判断を排除、年間5人月→0.5人月に削減</p>
               </div>
             </div>
-          </li>
-          <li class="bg-gradient-to-br from-cyan-50 to-cyan-100 rounded-xl p-6 border border-cyan-300 shadow-md">
-            <div class="flex items-start">
-              <span class="text-2xl mr-3">👥</span>
+            <span class="mono text-xs ml-4 flex-shrink-0 transition-all" style="color: var(--neon-cyan);" data-chevron>[ + ]</span>
+          </summary>
+          <div class="px-5 pb-4">
+            <ul class="space-y-2">
+              <li class="flex gap-2 text-sm text-slate-400 leading-relaxed"><span class="flex-shrink-0 mt-0.5" style="color: #60a5fa;">›</span><span>ESXi syslogの自動収集環境をAnsibleで構築し、ログ分析基盤の統一と保守性向上を実現。</span></li>
+              <li class="flex gap-2 text-sm text-slate-400 leading-relaxed"><span class="flex-shrink-0 mt-0.5" style="color: #60a5fa;">›</span><span>数千台規模のESXiホストを一元管理するシステムを開発し、最適なリソース配置を自動化。属人判断を排し、年間5人月→0.5人月まで工数を削減。</span></li>
+            </ul>
+          </div>
+        </details>
+
+        <!-- 2022 -->
+        <details class="ach-card rounded-lg overflow-hidden" style="border-color: #4ade80;" open>
+          <summary class="p-5 flex items-center justify-between hover:bg-white/5 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="mono text-sm font-bold flex-shrink-0 w-12" style="color: #4ade80;">2022</span>
               <div>
-                <h3 class="font-semibold text-cyan-700 mb-2">チームリーダーシップ</h3>
-                <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
-                  <li>技術面および運用方針の両面からチームを支援（構築計画・タスク管理・品質管理）</li>
-                  <li>メンバー育成や障害発生時の技術判断・指揮を行い、迅速な復旧をリード</li>
-                </ul>
+                <p class="font-semibold text-slate-200 text-sm">アップグレード前検証を完全自動化し、現場の作業負荷とリスクを軽減</p>
+                <p class="mono text-xs mt-1" style="color: #475569;">作業時間を3人月→0.5人月に削減、育成体制を構築</p>
               </div>
             </div>
-          </li>
-        </ul>
-      </section>
-
-      <!-- スキル -->
-      <section id="skills" class="mt-10 fadeup">
-        <h2 class="text-xl font-semibold text-blue-600 mb-4">🛠 スキル</h2>
-
-        <!-- マークアップ・プログラミング言語 -->
-        <div class="mb-6">
-          <h3 class="font-semibold text-sm text-gray-700 mb-3 flex items-center">
-            <span class="inline-block w-2 h-2 rounded-full bg-blue-600 mr-2"></span>
-            Programming & Markup
-          </h3>
-          <div class="flex flex-wrap gap-2">
-            <span
-              class="bg-gradient-to-r from-blue-400 to-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium hover:shadow-lg transition transform hover:scale-105">C
-              / C++</span>
-            <span
-              class="bg-gradient-to-r from-red-400 to-red-600 text-white px-3 py-1 rounded-full text-sm font-medium hover:shadow-lg transition transform hover:scale-105">HTML
-              / CSS</span>
-            <span
-              class="bg-gradient-to-r from-orange-400 to-orange-600 text-white px-3 py-1 rounded-full text-sm font-medium hover:shadow-lg transition transform hover:scale-105">Java</span>
-            <span
-              class="bg-gradient-to-r from-yellow-400 to-yellow-600 text-white px-3 py-1 rounded-full text-sm font-medium hover:shadow-lg transition transform hover:scale-105">JavaScript</span>
-            <span
-              class="bg-gradient-to-r from-green-400 to-green-600 text-white px-3 py-1 rounded-full text-sm font-medium hover:shadow-lg transition transform hover:scale-105">Perl</span>
-            <span
-              class="bg-gradient-to-r from-cyan-400 to-cyan-600 text-white px-3 py-1 rounded-full text-sm font-medium hover:shadow-lg transition transform hover:scale-105">Python</span>
-            <span
-              class="bg-gradient-to-r from-indigo-400 to-indigo-600 text-white px-3 py-1 rounded-full text-sm font-medium hover:shadow-lg transition transform hover:scale-105">PowerShell</span>
-            <span
-              class="bg-gradient-to-r from-purple-400 to-purple-600 text-white px-3 py-1 rounded-full text-sm font-medium hover:shadow-lg transition transform hover:scale-105">Shell
-              Script</span>
-          </div>
-        </div>
-
-        <!-- インフラ系 -->
-        <div class="mb-6">
-          <h3 class="font-semibold text-sm text-gray-700 mb-3 flex items-center">
-            <span class="inline-block w-2 h-2 rounded-full bg-blue-600 mr-2"></span>
-            インフラ系
-          </h3>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div class="bg-blue-50 rounded-lg p-3 border border-blue-200">
-              <h4 class="text-xs font-semibold text-blue-700 mb-2">サーバー基盤</h4>
-              <div class="flex flex-wrap gap-1.5">
-                <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs font-medium">Linux</span>
-                <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs font-medium">Windows</span>
-              </div>
-            </div>
-            <div class="bg-blue-50 rounded-lg p-3 border border-blue-200">
-              <h4 class="text-xs font-semibold text-blue-700 mb-2">仮想化</h4>
-              <div class="flex flex-wrap gap-1.5">
-                <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs font-medium">vCenter</span>
-                <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs font-medium">ESXi</span>
-                <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs font-medium">UsageMeter</span>
-              </div>
-            </div>
-            <div class="bg-green-50 rounded-lg p-3 border border-green-200">
-              <h4 class="text-xs font-semibold text-green-700 mb-2">自動化</h4>
-              <div class="flex flex-wrap gap-1.5">
-                <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-medium">Ansible</span>
-                <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-medium">Terraform</span>
-                <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-medium">Jenkins</span>
-              </div>
-            </div>
-            <div class="bg-purple-50 rounded-lg p-3 border border-purple-200">
-              <h4 class="text-xs font-semibold text-purple-700 mb-2">監視・分析</h4>
-              <div class="flex flex-wrap gap-1.5">
-                <span class="bg-purple-100 text-purple-700 px-2 py-1 rounded text-xs font-medium">Zabbix</span>
-                <span class="bg-purple-100 text-purple-700 px-2 py-1 rounded text-xs font-medium">Elastic Search</span>
-              </div>
-            </div>
-            <div class="bg-orange-50 rounded-lg p-3 border border-orange-200 sm:col-span-2">
-              <h4 class="text-xs font-semibold text-orange-700 mb-2">その他インフラ</h4>
-              <div class="flex flex-wrap gap-1.5">
-                <span class="bg-orange-100 text-orange-700 px-2 py-1 rounded text-xs font-medium">Docker</span>
-                <span class="bg-orange-100 text-orange-700 px-2 py-1 rounded text-xs font-medium">Active
-                  Directory</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- スキル可視化図 -->
-        <!--
-        <div class="mt-6 fadeup">
-          <div class="bg-gradient-to-br from-blue-600 to-cyan-600 rounded-3xl p-1 shadow-xl">
-            <div class="bg-white rounded-3xl overflow-hidden">
-              <div class="bg-gradient-to-r from-blue-50 to-cyan-50 px-6 py-4">
-                <h3 class="text-lg font-bold text-blue-600 flex items-center">
-                  <span class="text-2xl mr-3">🎯</span>
-                  スキルマップ
-                </h3>
-                <p class="text-xs text-gray-600 mt-1">仮想化基盤を中心とした技術領域の全体像</p>
-              </div>
-              <div class="p-4 flex justify-center bg-gradient-to-r from-blue-50 to-cyan-50">
-                <img src="vSphere全体図_ポートフォリオ.drawio.png" alt="スキルの全体像（仮想化基盤・自動化・運用レイヤー）"
-                  class="w-full object-contain md:max-h-96 cursor-zoom-in transition hover:scale-[1.02]"
-                  onclick="openModal(this.src)" />
-              </div>
-              <div class="px-6 pb-6 bg-gradient-to-r from-blue-50 to-cyan-50">
-                <div class="flex items-start space-x-3">
-                  <span class="text-cyan-500 text-lg mt-0.5">💡</span>
-                  <div class="text-sm text-gray-700 leading-relaxed">
-                    <p class="font-semibold text-gray-800 mb-1">構成要素</p>
-                    <p>本図は、仮想化基盤を中心に「設計・構築・運用・自動化」を</p>
-                    <p>レイヤーとして整理したスキルマップです。実務で担当してきた領域を軸に構成しています。</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      -->
-      <!-- 資格 -->
-      <section id="certs" class="mt-10 fadeup">
-        <h2 class="text-xl font-semibold text-blue-600 mb-4">📚 資格</h2>
-
-        <!-- タイムライン -->
-        <div class="space-y-3">
-          <!-- 2016年 -->
-          <div class="border-l-4 border-orange-500 pl-4 py-2">
-            <div class="relative">
-              <div class="absolute -left-8 top-0 w-4 h-4 rounded-full bg-orange-500 shadow-lg"></div>
-              <p class="text-sm font-bold text-orange-600 mb-1">2016年</p>
-              <div class="bg-orange-50 rounded-lg p-3 border border-orange-200">
-                <p class="text-sm text-gray-700">🔹 基本情報技術者試験 (2016/5)</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- 2022年 -->
-          <div class="border-l-4 border-green-500 pl-4 py-2">
-            <div class="relative">
-              <div class="absolute -left-8 top-0 w-4 h-4 rounded-full bg-green-500 shadow-lg"></div>
-              <p class="text-sm font-bold text-green-600 mb-1">2022年</p>
-              <div class="bg-green-50 rounded-lg p-3 border border-green-200">
-                <p class="text-sm text-gray-700">🔹 VMware Certified Professional – DCV (2022/3)</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- 2023 -->
-          <div class="border-l-4 border-blue-500 pl-4 py-2">
-            <div class="relative">
-              <div class="absolute -left-8 top-0 w-4 h-4 rounded-full bg-blue-500 shadow-lg"></div>
-              <p class="text-sm font-bold text-blue-600 mb-1">2023年</p>
-              <div class="bg-blue-50 rounded-lg p-3 border border-blue-200 space-y-1">
-                <p class="text-sm text-gray-700">🔹 AWS Certified Cloud Practitioner (2023/10)</p>
-                <p class="text-sm text-gray-700">🔹 Fujitsu Certified Professional Cloud (2023/11)</p>
-                <p class="text-sm text-gray-700">🔹 Microsoft Azure Fundamentals (2023/11)</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- 2024 -->
-          <div class="border-l-4 border-cyan-500 pl-4 py-2">
-            <div class="relative">
-              <div class="absolute -left-8 top-0 w-4 h-4 rounded-full bg-cyan-500 shadow-lg"></div>
-              <p class="text-sm font-bold text-cyan-600 mb-1">2024年</p>
-              <div class="bg-cyan-50 rounded-lg p-3 border border-cyan-200 space-y-1">
-                <p class="text-sm text-gray-700">🔹 Microsoft Azure Administrator (2024/5) <span
-                    class="text-gray-500">expired</span></p>
-                <p class="text-sm text-gray-700">🔹 AWS Certified Solutions Architect (2024/7)</p>
-                <p class="text-sm text-gray-700">🔹 LPIC-1 101/102 (2024/9)</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- 2026年 -->
-          <div class="border-l-4 border-purple-500 pl-4 py-2">
-            <div class="relative">
-              <div class="absolute -left-8 top-0 w-4 h-4 rounded-full bg-purple-500 shadow-lg"></div>
-              <p class="text-sm font-bold text-purple-600 mb-1">2026年</p>
-              <div class="bg-purple-50 rounded-lg p-3 border border-purple-200">
-                <p class="text-sm text-gray-700">🔹 LPIC-2 201/202 (2026/2)</p>
-                <p class="text-sm text-gray-700">🔹 LPIC-3 305 (2026/2)</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 実績 -->
-      <section id="achievements" class="mt-10 fadeup">
-        <h2 class="text-xl font-semibold text-blue-600 mb-4">🏆 実績</h2>
-        <div class="space-y-3">
-
-          <!-- 2021年度 -->
-          <details
-            class="group border-l-4 border-blue-500 bg-gradient-to-r from-blue-50 to-white rounded-xl p-5 shadow-md hover:shadow-lg transition"
-            open>
-            <summary class="cursor-pointer flex items-center justify-between">
-              <div class="flex items-center space-x-3">
-                <span
-                  class="text-xs font-bold text-blue-600 bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center">2021</span>
-                <div>
-                  <p class="font-semibold text-blue-700">ESXi運用の属人性を排除し、業務の見える化・自動化を推進</p>
-                  <p class="text-xs text-blue-500 mt-0.5">属人判断を排除、年間5人月→0.5人月に削減</p>
-                </div>
-              </div>
-              <span class="group-open:rotate-180 transition transform">▼</span>
-            </summary>
-            <ul class="list-disc list-inside mt-3 ml-15 space-y-1 text-sm text-gray-700">
-              <li>ESXi syslogの自動収集環境をAnsibleで構築し、ログ分析基盤の統一と保守性向上を実現。</li>
-              <li>数千台規模のESXiホストを一元管理するシステムを開発し、最適なリソース配置を自動化。属人判断を排し、年間5人月→0.5人月まで工数を削減。</li>
+            <span class="mono text-xs ml-4 flex-shrink-0" style="color: var(--neon-cyan);" data-chevron>[ + ]</span>
+          </summary>
+          <div class="px-5 pb-4">
+            <ul class="space-y-2">
+              <li class="flex gap-2 text-sm text-slate-400 leading-relaxed"><span class="flex-shrink-0 mt-0.5" style="color: #4ade80;">›</span><span>vCenter/ESXiアップグレード前の動作検証項目をスクリプト化・自動実行可能にし、作業時間を3人月→0.5人月に削減。障害リスクを事前回避できる基盤を確立。</span></li>
+              <li class="flex gap-2 text-sm text-slate-400 leading-relaxed"><span class="flex-shrink-0 mt-0.5" style="color: #4ade80;">›</span><span>新入社員教育係に就任し、育成計画・定例MTG・質問受付体制を構築。結果として後輩がRedmine自動化システムを独力で構築するなど、育成成果が現場改善に結びつく。</span></li>
             </ul>
-          </details>
+          </div>
+        </details>
 
-          <!-- 2022年度 -->
-          <details
-            class="group border-l-4 border-green-500 bg-gradient-to-r from-green-50 to-white rounded-xl p-5 shadow-md hover:shadow-lg transition"
-            open>
-            <summary class="cursor-pointer flex items-center justify-between">
-              <div class="flex items-center space-x-3">
-                <span
-                  class="text-xs font-bold text-green-600 bg-green-100 w-12 h-12 rounded-full flex items-center justify-center">2022</span>
-                <div>
-                  <p class="font-semibold text-green-700">アップグレード前検証を完全自動化し、現場の作業負荷とリスクを軽減</p>
-                  <p class="text-xs text-green-500 mt-0.5">作業時間を3人月→0.5人月に削減、育成体制を構築</p>
-                </div>
+        <!-- 2023 -->
+        <details class="ach-card rounded-lg overflow-hidden" style="border-color: #c084fc;" open>
+          <summary class="p-5 flex items-center justify-between hover:bg-white/5 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="mono text-sm font-bold flex-shrink-0 w-12" style="color: #c084fc;">2023</span>
+              <div>
+                <p class="font-semibold text-slate-200 text-sm">先読みの自動化と構築時間短縮で、持続可能なインフラ運用を構築</p>
+                <p class="mono text-xs mt-1" style="color: #475569;">構築時間を6h→2hに短縮、年間3人月削減</p>
               </div>
-              <span class="group-open:rotate-180 transition transform">▼</span>
-            </summary>
-            <ul class="list-disc list-inside mt-3 ml-15 space-y-1 text-sm text-gray-700">
-              <li>vCenter/ESXiアップグレード前の動作検証項目をスクリプト化・自動実行可能にし、作業時間を3人月→0.5人月に削減。障害リスクを事前回避できる基盤を確立。</li>
-              <li>新入社員教育係に就任し、育成計画・定例MTG・質問受付体制を構築。結果として後輩がRedmine自動化システムを独力で構築するなど、育成成果が現場改善に結びつく。</li>
+            </div>
+            <span class="mono text-xs ml-4 flex-shrink-0" style="color: var(--neon-cyan);" data-chevron>[ + ]</span>
+          </summary>
+          <div class="px-5 pb-4">
+            <ul class="space-y-2">
+              <li class="flex gap-2 text-sm text-slate-400 leading-relaxed"><span class="flex-shrink-0 mt-0.5" style="color: #c084fc;">›</span><span>リソース使用量を過去データから予測し、ホスト増設判断を自動化。1人月かかっていた作業を0.1人月に圧縮し、運用の先回り判断を仕組み化。</span></li>
+              <li class="flex gap-2 text-sm text-slate-400 leading-relaxed"><span class="flex-shrink-0 mt-0.5" style="color: #c084fc;">›</span><span>ESXiホスト構築フローを完全自動化し、1台あたりの構築時間を6h→2hに短縮。年間で約3人月の工数削減を達成。</span></li>
+              <li class="flex gap-2 text-sm text-slate-400 leading-relaxed"><span class="flex-shrink-0 mt-0.5" style="color: #c084fc;">›</span><span>教育係を継続し、若手メンバーの技術力・自走力を底上げする体制を維持。</span></li>
             </ul>
-          </details>
+          </div>
+        </details>
 
-          <!-- 2023年度 -->
-          <details
-            class="group border-l-4 border-purple-500 bg-gradient-to-r from-purple-50 to-white rounded-xl p-5 shadow-md hover:shadow-lg transition"
-            open>
-            <summary class="cursor-pointer flex items-center justify-between">
-              <div class="flex items-center space-x-3">
-                <span
-                  class="text-xs font-bold text-purple-600 bg-purple-100 w-12 h-12 rounded-full flex items-center justify-center">2023</span>
-                <div>
-                  <p class="font-semibold text-purple-700">先読みの自動化と構築時間短縮で、持続可能なインフラ運用を構築</p>
-                  <p class="text-xs text-purple-500 mt-0.5">構築時間を6h→2hに短縮、年間3人月削減</p>
-                </div>
+        <!-- 2024 -->
+        <details class="ach-card rounded-lg overflow-hidden" style="border-color: var(--neon-cyan);" open>
+          <summary class="p-5 flex items-center justify-between hover:bg-white/5 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="mono text-sm font-bold flex-shrink-0 w-12" style="color: var(--neon-cyan);">2024</span>
+              <div>
+                <p class="font-semibold text-slate-200 text-sm">チームリーダー就任と同時に、構築スピードとセキュリティ品質を確立</p>
+                <p class="mono text-xs mt-1" style="color: #475569;">リーダー昇格、12人月→2人月に削減</p>
               </div>
-              <span class="group-open:rotate-180 transition transform">▼</span>
-            </summary>
-            <ul class="list-disc list-inside mt-3 ml-15 space-y-1 text-sm text-gray-700">
-              <li>リソース使用量を過去データから予測し、ホスト増設判断を自動化。1人月かかっていた作業を0.1人月に圧縮し、運用の先回り判断を仕組み化。</li>
-              <li>ESXiホスト構築フローを完全自動化し、1台あたりの構築時間を6h→2hに短縮。年間で約3人月の工数削減を達成。</li>
-              <li>教育係を継続し、若手メンバーの技術力・自走力を底上げする体制を維持。</li>
+            </div>
+            <span class="mono text-xs ml-4 flex-shrink-0" style="color: var(--neon-cyan);" data-chevron>[ + ]</span>
+          </summary>
+          <div class="px-5 pb-4">
+            <ul class="space-y-2">
+              <li class="flex gap-2 text-sm text-slate-400 leading-relaxed"><span class="flex-shrink-0 mt-0.5" style="color: var(--neon-cyan);">›</span><span>4月よりサブリーダーに昇格。vSphereの設計・構築に参画。顧客要望に合わせた柔軟な仮想基盤の設計提案・実装を主導。</span></li>
+              <li class="flex gap-2 text-sm text-slate-400 leading-relaxed"><span class="flex-shrink-0 mt-0.5" style="color: var(--neon-cyan);">›</span><span>9月よりチームリーダーに昇格し、7名チームのマネジメントを開始。進捗管理・タスク分担・技術支援を含む体制を整備。</span></li>
+              <li class="flex gap-2 text-sm text-slate-400 leading-relaxed"><span class="flex-shrink-0 mt-0.5" style="color: var(--neon-cyan);">›</span><span>ESXiのアップグレードを自動化・並列化し、従来12人月かかっていた作業を2人月に削減。セキュリティパッチ対応も迅速化。</span></li>
             </ul>
-          </details>
+          </div>
+        </details>
 
-          <!-- 2024年度 -->
-          <details
-            class="group border-l-4 border-cyan-500 bg-gradient-to-r from-cyan-50 to-white rounded-xl p-5 shadow-md hover:shadow-lg transition"
-            open>
-            <summary class="cursor-pointer flex items-center justify-between">
-              <div class="flex items-center space-x-3">
-                <span
-                  class="text-xs font-bold text-cyan-600 bg-cyan-100 w-12 h-12 rounded-full flex items-center justify-center">2024</span>
-                <div>
-                  <p class="font-semibold text-cyan-700">チームリーダー就任と同時に、構築スピードとセキュリティ品質を確立</p>
-                  <p class="text-xs text-cyan-500 mt-0.5">リーダー昇格、12人月→2人月に削減</p>
-                </div>
+        <!-- 2025 -->
+        <details class="ach-card rounded-lg overflow-hidden" style="border-color: #fb923c;" open>
+          <summary class="p-5 flex items-center justify-between hover:bg-white/5 transition-colors">
+            <div class="flex items-center gap-4">
+              <span class="mono text-sm font-bold flex-shrink-0 w-12" style="color: #fb923c;">2025</span>
+              <div>
+                <p class="font-semibold text-slate-200 text-sm">複雑な基盤作業を標準化・再現性の高い自動化へ落とし込み継続改善</p>
+                <p class="mono text-xs mt-1" style="color: #475569;">アップグレード6人月→1人月、解体2人月→0.1人月に削減</p>
               </div>
-              <span class="group-open:rotate-180 transition transform">▼</span>
-            </summary>
-            <ul class="list-disc list-inside mt-3 ml-15 space-y-1 text-sm text-gray-700">
-              <li>4月よりサブリーダーに昇格。vSphereの設計・構築に参画。顧客要望に合わせた柔軟な仮想基盤の設計提案・実装を主導。</li>
-              <li>9月よりチームリーダーに昇格し、7名チームのマネジメントを開始。進捗管理・タスク分担・技術支援を含む体制を整備。</li>
-              <li>ESXiのアップグレードを自動化・並列化し、従来12人月かかっていた作業を2人月に削減。セキュリティパッチ対応も迅速化。</li>
+            </div>
+            <span class="mono text-xs ml-4 flex-shrink-0" style="color: var(--neon-cyan);" data-chevron>[ + ]</span>
+          </summary>
+          <div class="px-5 pb-4">
+            <ul class="space-y-2">
+              <li class="flex gap-2 text-sm text-slate-400 leading-relaxed"><span class="flex-shrink-0 mt-0.5" style="color: #fb923c;">›</span><span>vCenterアップグレードのフローを自動化・標準化し、作業工数を6人月→1人月へ短縮。</span></li>
+              <li class="flex gap-2 text-sm text-slate-400 leading-relaxed"><span class="flex-shrink-0 mt-0.5" style="color: #fb923c;">›</span><span>仮想化基盤の解体作業をフル自動化。人手で2人月かかっていた工程を0.1人月で完了できる仕組みに刷新。</span></li>
+              <li class="flex gap-2 text-sm text-slate-400 leading-relaxed"><span class="flex-shrink-0 mt-0.5" style="color: #fb923c;">›</span><span>管理系VMの自動構築テンプレートを整備し、年間1人月→0.1人月に削減。後続メンバーも活用できる汎用化を意識した設計。</span></li>
+              <li class="flex gap-2 text-sm text-slate-400 leading-relaxed"><span class="flex-shrink-0 mt-0.5" style="color: #fb923c;">›</span><span>リーダーとして、チーム内の属人作業の可視化と、継続的な自動化・効率化をリード中。</span></li>
             </ul>
-          </details>
+          </div>
+        </details>
+      </div>
 
-          <!-- 2025年度 -->
-          <details
-            class="group border-l-4 border-orange-500 bg-gradient-to-r from-orange-50 to-white rounded-xl p-5 shadow-md hover:shadow-lg transition"
-            open>
-            <summary class="cursor-pointer flex items-center justify-between">
-              <div class="flex items-center space-x-3">
-                <span
-                  class="text-xs font-bold text-orange-600 bg-orange-100 w-12 h-12 rounded-full flex items-center justify-center">2025</span>
-                <div>
-                  <p class="font-semibold text-orange-700">複雑な基盤作業を標準化・再現性の高い自動化へ落とし込み継続改善</p>
-                  <p class="text-xs text-orange-500 mt-0.5">アップグレード6人月→1人月、解体2人月→0.1人月に削減</p>
-                </div>
-              </div>
-              <span class="group-open:rotate-180 transition transform">▼</span>
-            </summary>
-            <ul class="list-disc list-inside mt-3 ml-15 space-y-1 text-sm text-gray-700">
-              <li>vCenterアップグレードのフローを自動化・標準化し、作業工数を6人月→1人月へ短縮。</li>
-              <li>仮想化基盤の解体作業をフル自動化。人手で2人月かかっていた工程を0.1人月で完了できる仕組みに刷新。</li>
-              <li>管理系VMの自動構築テンプレートを整備し、年間1人月→0.1人月に削減。後続メンバーも活用できる汎用化を意識した設計。</li>
-              <li>リーダーとして、チーム内の属人作業の可視化と、継続的な自動化・効率化をリード中。</li>
-            </ul>
-          </details>
-        </div>
-        
-        <div class="mt-6 text-center">
-          <a href="achievements.html" class="inline-block bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white font-bold py-3 px-6 rounded-full shadow-lg transform transition-all duration-300 hover:scale-105">
-            <p>🏆 さらに詳しい実績はこちら</p>
-          </a>
-        </div>
-        
-      </section>
-
-      <section class="mt-10 text-center fadeup">
-        <a href="books.html" class="inline-block bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-bold py-3 px-6 rounded-full shadow-lg transform transition-all duration-300 hover:scale-105">
-          <p>モチベーションのため読んだ書籍をまとめています</p>
-          <p></p>My Record of Reading</p>
+      <div class="mt-6 text-center">
+        <a href="achievements.html" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-sm transition-all duration-300 hover:scale-105 hover:shadow-lg" style="background: linear-gradient(135deg, rgba(168,85,247,0.15), rgba(0,212,255,0.15)); border: 1px solid rgba(168,85,247,0.35); color: #c084fc;">
+          <span class="mono text-xs">$</span> さらに詳しい実績はこちら <span class="mono">→</span>
         </a>
-      </section>
+      </div>
+    </section>
 
-      <footer class="mt-12 text-center text-gray-400 text-xs">
-        &copy; 2025 Yuto Fukui - All rights reserved.
-      </footer>
-    </div>
+    <!-- Home Lab & Books -->
+    <section class="text-center fadeup" style="margin-top: 2rem !important;">
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="homelab.html" class="inline-flex flex-col items-center gap-2 px-8 py-5 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg" style="background: linear-gradient(135deg, rgba(168,85,247,0.1), rgba(0,212,255,0.08)); border: 1px solid rgba(168,85,247,0.3);">
+          <span class="text-sm text-slate-300">Proxmox + k3s + AIOps による自宅ラボ構築</span>
+          <span class="mono text-xs" style="color: var(--neon-purple);">Home Lab Portfolio →</span>
+        </a>
+        <a href="books.html" class="inline-flex flex-col items-center gap-2 px-8 py-5 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg" style="background: linear-gradient(135deg, rgba(0,212,255,0.08), rgba(0,255,136,0.08)); border: 1px solid rgba(0,212,255,0.25);">
+          <span class="text-sm text-slate-300">モチベーションのため読んだ書籍をまとめています</span>
+          <span class="mono text-xs" style="color: var(--neon-green);">My Record of Reading →</span>
+        </a>
+      </div>
+    </section>
+
+    <footer class="text-center py-6" style="border-top: 1px solid rgba(0,212,255,0.08);">
+      <p class="mono text-xs" style="color: #334155;">&copy; 2025 Yuto Fukui - All rights reserved.</p>
+    </footer>
   </div>
 
-  <!-- スクロール表示 -->
   <script>
+    // Scroll animation
     const items = document.querySelectorAll('.fadeup');
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('show');
-        }
+        if (entry.isIntersecting) entry.target.classList.add('show');
       });
-    }, { threshold: 0.15 });
-
+    }, { threshold: 0.08 });
     items.forEach(el => observer.observe(el));
-    function openModal(src) {
-      const modal = document.getElementById("imageModal");
-      const modalImg = document.getElementById("modalImage");
 
-      modalImg.src = src;
-      modal.classList.remove("hidden");
-      modal.classList.add("flex");
-      document.body.style.overflow = "hidden";
-    }
+    // Details chevron toggle
+    document.querySelectorAll('details').forEach(detail => {
+      const chevron = detail.querySelector('[data-chevron]');
+      if (chevron) chevron.textContent = detail.open ? '[ - ]' : '[ + ]';
+      detail.addEventListener('toggle', () => {
+        if (chevron) chevron.textContent = detail.open ? '[ - ]' : '[ + ]';
+      });
+    });
 
-    function closeModal() {
-      const modal = document.getElementById("imageModal");
-      modal.classList.add("hidden");
-      modal.classList.remove("flex");
-      document.body.style.overflow = "";
+    // Particle canvas
+    const canvas = document.getElementById('particles-canvas');
+    const ctx = canvas.getContext('2d');
+
+    function resize() {
+      canvas.width = canvas.parentElement.offsetWidth;
+      canvas.height = canvas.parentElement.offsetHeight;
     }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const pts = Array.from({ length: 55 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 0.25,
+      vy: (Math.random() - 0.5) * 0.25,
+      r: Math.random() * 1.2 + 0.4,
+      a: Math.random() * 0.4 + 0.1
+    }));
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      pts.forEach(p => {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(0,212,255,${p.a})`;
+        ctx.fill();
+      });
+      for (let i = 0; i < pts.length; i++) {
+        for (let j = i + 1; j < pts.length; j++) {
+          const dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y;
+          const d = Math.sqrt(dx * dx + dy * dy);
+          if (d < 110) {
+            ctx.beginPath();
+            ctx.moveTo(pts[i].x, pts[i].y);
+            ctx.lineTo(pts[j].x, pts[j].y);
+            ctx.strokeStyle = `rgba(0,212,255,${0.08 * (1 - d / 110)})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+    draw();
   </script>
-  <div id="imageModal" class="fixed inset-0 bg-white hidden items-center justify-center z-50">
-    <button onclick="closeModal()" class="absolute top-6 right-6 text-black text-3xl font-bold hover:scale-110 transition">
-      ✕
-    </button>
-
-    <img id="modalImage" class="max-w-full max-h-full p-6 rounded-xl shadow-2xl" />
-  </div>
 </body>
 
 </html>

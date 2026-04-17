@@ -275,6 +275,20 @@
 
   <div class="max-w-5xl mx-auto px-6 pb-20 space-y-20">
 
+    <!-- 自己紹介 -->
+    <section class="fadeup">
+      <div class="neon-card rounded-lg p-6" style="border-color: rgba(0,212,255,0.2);">
+        <div class="mono text-xs mb-4" style="color: #475569;">
+          <span style="color: var(--neon-green);">$</span>&nbsp;cat profile.txt
+        </div>
+        <div class="space-y-3 text-sm text-slate-300 leading-relaxed border-l-2 pl-4" style="border-color: rgba(0,212,255,0.3);">
+          <p>2021年に新卒入社し、VMware vSphere を専門領域として数千台規模の仮想化基盤の設計・構築・運用に従事してきた。</p>
+          <p>「繰り返し作業を仕組みで解決する」を一貫した信条とし、Ansible・Terraform・Python を駆使して属人化を排除し続けている。自動化によって生まれた余白を、さらなる改善と学習に充てるサイクルを実践中。</p>
+          <p>現在はチームリーダーとして7名の組織を牽引しながら、プライベートでは Proxmox + k3s + AIOps を構築する自宅ラボを通じてクラウドネイティブ技術と AI を日々実践している。</p>
+        </div>
+      </div>
+    </section>
+
     <!-- 現在の業務 -->
     <section id="work" class="fadeup">
       <div class="section-header">
@@ -315,6 +329,7 @@
       <div class="mb-6">
         <h3 class="mono text-xs mb-3 flex items-center gap-2" style="color: #475569;">
           <span style="color: var(--neon-green);">//</span> Programming &amp; Markup
+          <span class="ml-auto text-xs" style="color: #334155;">業務・自動化開発で実用</span>
         </h3>
         <div class="flex flex-wrap gap-2">
           <span class="skill-badge" style="color: #60a5fa; border-color: rgba(96,165,250,0.3); background: rgba(96,165,250,0.07);">C / C++</span>
@@ -331,6 +346,7 @@
       <div>
         <h3 class="mono text-xs mb-3 flex items-center gap-2" style="color: #475569;">
           <span style="color: var(--neon-green);">//</span> インフラ系
+          <span class="ml-auto text-xs" style="color: #334155;">実務経験 5年+</span>
         </h3>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div class="neon-card rounded-lg p-3">
@@ -379,6 +395,7 @@
       <div class="mt-6">
         <h3 class="mono text-xs mb-3 flex items-center gap-2" style="color: #475569;">
           <span style="color: var(--neon-green);">//</span> AI
+          <span class="ml-auto text-xs" style="color: #334155;">自宅ラボ・業務で活用中</span>
         </h3>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div class="neon-card rounded-lg p-3 sm:col-span-2" style="border-color: rgba(0,212,255,0.2); background: linear-gradient(135deg, rgba(0,212,255,0.04), rgba(168,85,247,0.04));">
@@ -407,6 +424,7 @@
           <p class="mono text-xs font-bold mb-2" style="color: #fb923c;">2016</p>
           <div class="rounded-lg p-3" style="background: rgba(251,146,60,0.05); border: 1px solid rgba(251,146,60,0.2);">
             <p class="text-sm text-slate-300">基本情報技術者試験 <span class="mono text-xs" style="color: #475569;">(2016/5)</span></p>
+            <p class="text-xs mt-1.5" style="color: #64748b;">IT基礎全般の知識体系を確立。エンジニアとしてのキャリアの出発点。</p>
           </div>
         </div>
 
@@ -416,6 +434,7 @@
           <p class="mono text-xs font-bold mb-2" style="color: #4ade80;">2022</p>
           <div class="rounded-lg p-3" style="background: rgba(74,222,128,0.05); border: 1px solid rgba(74,222,128,0.2);">
             <p class="text-sm text-slate-300">VMware Certified Professional – DCV <span class="mono text-xs" style="color: #475569;">(2022/3)</span></p>
+            <p class="text-xs mt-1.5" style="color: #64748b;">実務で担当する VMware vSphere の公式上位認定。設計・構築・運用の実力を対外的に証明。</p>
           </div>
         </div>
 
@@ -423,10 +442,19 @@
         <div class="relative border-l pl-5 py-0.5" style="border-color: rgba(96,165,250,0.35);">
           <div class="tl-dot" style="background: #60a5fa; box-shadow: 0 0 8px #60a5fa;"></div>
           <p class="mono text-xs font-bold mb-2" style="color: #60a5fa;">2023</p>
-          <div class="rounded-lg p-3 space-y-1.5" style="background: rgba(96,165,250,0.05); border: 1px solid rgba(96,165,250,0.2);">
-            <p class="text-sm text-slate-300">AWS Certified Cloud Practitioner <span class="mono text-xs" style="color: #475569;">(2023/10)</span></p>
-            <p class="text-sm text-slate-300">Fujitsu Certified Professional Cloud <span class="mono text-xs" style="color: #475569;">(2023/11)</span></p>
-            <p class="text-sm text-slate-300">Microsoft Azure Fundamentals <span class="mono text-xs" style="color: #475569;">(2023/11)</span></p>
+          <div class="rounded-lg p-3 space-y-3" style="background: rgba(96,165,250,0.05); border: 1px solid rgba(96,165,250,0.2);">
+            <div>
+              <p class="text-sm text-slate-300">AWS Certified Cloud Practitioner <span class="mono text-xs" style="color: #475569;">(2023/10)</span></p>
+              <p class="text-xs mt-1" style="color: #64748b;">AWS クラウド全体の基礎概念を体系化。マルチクラウド対応への第一歩。</p>
+            </div>
+            <div>
+              <p class="text-sm text-slate-300">Fujitsu Certified Professional Cloud <span class="mono text-xs" style="color: #475569;">(2023/11)</span></p>
+              <p class="text-xs mt-1" style="color: #64748b;">富士通クラウド基盤の専門知識を認定。業務上の技術判断力を証明。</p>
+            </div>
+            <div>
+              <p class="text-sm text-slate-300">Microsoft Azure Fundamentals <span class="mono text-xs" style="color: #475569;">(2023/11)</span></p>
+              <p class="text-xs mt-1" style="color: #64748b;">Azure の基礎概念・サービス体系を習得。AZ-104 取得への布石。</p>
+            </div>
           </div>
         </div>
 
@@ -434,10 +462,19 @@
         <div class="relative border-l pl-5 py-0.5" style="border-color: rgba(0,212,255,0.35);">
           <div class="tl-dot" style="background: var(--neon-cyan); box-shadow: 0 0 8px var(--neon-cyan);"></div>
           <p class="mono text-xs font-bold mb-2" style="color: var(--neon-cyan);">2024</p>
-          <div class="rounded-lg p-3 space-y-1.5" style="background: rgba(0,212,255,0.05); border: 1px solid rgba(0,212,255,0.2);">
-            <p class="text-sm text-slate-300">Microsoft Azure Administrator <span class="mono text-xs" style="color: #475569;">(2024/5)</span> <span class="mono text-xs px-1.5 py-0.5 rounded" style="color: #475569; background: rgba(71,85,105,0.15); border: 1px solid rgba(71,85,105,0.3);">expired</span></p>
-            <p class="text-sm text-slate-300">AWS Certified Solutions Architect <span class="mono text-xs" style="color: #475569;">(2024/7)</span></p>
-            <p class="text-sm text-slate-300">LPIC-1 101/102 <span class="mono text-xs" style="color: #475569;">(2024/9)</span></p>
+          <div class="rounded-lg p-3 space-y-3" style="background: rgba(0,212,255,0.05); border: 1px solid rgba(0,212,255,0.2);">
+            <div>
+              <p class="text-sm text-slate-300">Microsoft Azure Administrator <span class="mono text-xs" style="color: #475569;">(2024/5)</span> <span class="mono text-xs px-1.5 py-0.5 rounded" style="color: #475569; background: rgba(71,85,105,0.15); border: 1px solid rgba(71,85,105,0.3);">expired</span></p>
+              <p class="text-xs mt-1" style="color: #64748b;">Azure の仮想ネットワーク・IAM・監視を実践レベルで習得。インフラ横断スキルを拡大。</p>
+            </div>
+            <div>
+              <p class="text-sm text-slate-300">AWS Certified Solutions Architect <span class="mono text-xs" style="color: #475569;">(2024/7)</span></p>
+              <p class="text-xs mt-1" style="color: #64748b;">AWS の設計ベストプラクティスを網羅。クラウドアーキテクチャの提案力を強化。</p>
+            </div>
+            <div>
+              <p class="text-sm text-slate-300">LPIC-1 101/102 <span class="mono text-xs" style="color: #475569;">(2024/9)</span></p>
+              <p class="text-xs mt-1" style="color: #64748b;">Linux の基礎管理・コマンド・シェルを体系化。自動化スクリプトの土台を強化。</p>
+            </div>
           </div>
         </div>
 
@@ -445,9 +482,15 @@
         <div class="relative border-l pl-5 py-0.5" style="border-color: rgba(192,132,252,0.35);">
           <div class="tl-dot" style="background: #c084fc; box-shadow: 0 0 8px #c084fc;"></div>
           <p class="mono text-xs font-bold mb-2" style="color: #c084fc;">2026</p>
-          <div class="rounded-lg p-3 space-y-1.5" style="background: rgba(192,132,252,0.05); border: 1px solid rgba(192,132,252,0.2);">
-            <p class="text-sm text-slate-300">LPIC-2 201/202 <span class="mono text-xs" style="color: #475569;">(2026/2)</span></p>
-            <p class="text-sm text-slate-300">LPIC-3 305 <span class="mono text-xs" style="color: #475569;">(2026/2)</span></p>
+          <div class="rounded-lg p-3 space-y-3" style="background: rgba(192,132,252,0.05); border: 1px solid rgba(192,132,252,0.2);">
+            <div>
+              <p class="text-sm text-slate-300">LPIC-2 201/202 <span class="mono text-xs" style="color: #475569;">(2026/2)</span></p>
+              <p class="text-xs mt-1" style="color: #64748b;">Linux サーバーの構築・管理・ネットワーク設定を上級レベルで習得。本番環境設計に直結。</p>
+            </div>
+            <div>
+              <p class="text-sm text-slate-300">LPIC-3 305 <span class="mono text-xs" style="color: #475569;">(2026/2)</span></p>
+              <p class="text-xs mt-1" style="color: #64748b;">仮想化（KVM / Xen / Docker）に特化した最上位 Linux 認定。専門性の高さを証明。</p>
+            </div>
           </div>
         </div>
       </div>
@@ -472,7 +515,7 @@
             <!-- 2021 -->
             <div class="flex flex-col items-center" style="min-width: 110px;">
               <div class="w-10 h-10 rounded-full flex items-center justify-center z-10 mb-3 mono text-xs font-bold" style="background: rgba(96,165,250,0.12); border: 1px solid rgba(96,165,250,0.4); color: #60a5fa;">2021</div>
-              <p class="text-xs font-semibold text-center" style="color: #60a5fa;">エンジニア</p>
+              <p class="text-xs font-semibold text-center" style="color: #60a5fa;">新卒入社</p>
               <p class="mono text-xs text-center mt-1" style="color: #475569;">自動化推進</p>
             </div>
 
